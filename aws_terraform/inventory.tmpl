@@ -1,0 +1,18 @@
+[security]
+${security-dns} ansible_host=${security-ip} # ${security-id}
+
+[database]
+${security-dns} ansible_host=${security-ip} # ${security-id}
+
+[manager]
+${security-dns} ansible_host=${security-ip} # ${security-id}
+
+[master]
+%{ for index, dns in master-dns ~}
+${dns} ansible_host=${master-ip[index]}
+%{ endfor ~}
+
+[worker]
+%{ for index, dns in node-dns ~}
+${node} ansible_host=${node-ip[index]} # ${node-id[index]}
+%{ endfor ~}
