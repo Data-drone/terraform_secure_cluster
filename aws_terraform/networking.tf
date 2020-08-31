@@ -73,7 +73,8 @@ resource "aws_security_group" "sec-clus-sg" {
         to_port = 22
         protocol = "tcp"
         
-        cidr_blocks = concat( ["${local.ifconfig_co_json.ip}/128"], var.ingress_cidr_blocks)
+        ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
+        cidr_blocks = var.ingress_cidr_blocks
     }
 
     //If you do not add this rule, you can not reach the NGIX
@@ -81,7 +82,9 @@ resource "aws_security_group" "sec-clus-sg" {
         from_port = 0
         to_port = 0
         protocol = -1
-        cidr_blocks = concat( ["${local.ifconfig_co_json.ip}/128"], var.ingress_cidr_blocks)
+
+        ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
+        cidr_blocks = var.ingress_cidr_blocks
     }
 
     tags = {

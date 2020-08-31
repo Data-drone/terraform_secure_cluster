@@ -31,6 +31,11 @@ variable "new_node_count" {
     default = 2
 }
 
+variable "master_count" {
+    type = number
+    default = 1
+}
+
 variable "volume_type" {
     type = string
     default = "gp2"
