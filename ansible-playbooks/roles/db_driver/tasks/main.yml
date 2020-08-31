@@ -1,0 +1,8 @@
+---
+
+- name: add postgres driver
+  get_url:
+    url: https://jdbc.postgresql.org/download/postgresql-42.2.16.jar
+    dest: /usr/share/java/postgresql-connector-java.jar
+    mode: '0644'
+    

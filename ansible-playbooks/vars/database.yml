@@ -1,0 +1,58 @@
+postgresql_user: postgres
+
+postgresql_users:
+  - name: 'scm'
+    password: 'scmPass'
+    state: present
+  - name: 'amon'
+    password: 'amonPass'
+    state: present
+  - name: 'rman'
+    password: 'rmanPass'
+    state: present
+  - name: 'hue'
+    password: 'huePass'
+    state: present
+  - name: 'hive'
+    password: 'hivePass'
+    state: present
+  - name: 'oozie'
+    password: 'ooziePass'
+    state: present
+  - name: 'das'
+    password: 'dasPass'
+    state: present
+  - name: 'ranger'
+    password: 'rangerPass'
+    state: present
+
+    
+postgresql_databases:
+  - name: scm
+    owner: scm
+  - name: amon
+    owner: amon
+  - name: rman
+    owner: rman
+  - name: rman
+    owner: rman
+  - name: hue
+    owner: hue
+  - name: metastore
+    owner: hive
+  - name: oozie
+    owner: oozie
+  - name: das
+    owner: das
+  - name: ranger
+    owner: ranger
+
+postgresql_hba_entries:
+    - {type: local, database: all, user: postgres, auth_method: peer}
+    - {type: local, database: all, user: all, auth_method: peer}
+    - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
+    - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}  
+    - {type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: md5}    
+
+
+postgres_users_no_log: false
