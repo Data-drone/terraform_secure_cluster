@@ -4,3 +4,7 @@ cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/7.1.3/red
 
 scm_prepare_database_script_path: "/opt/cloudera/cm/schema/scm_prepare_database.sh"
 database_type: "postgresql"
+scm_port: 7180
+
+scm_default_user: admin
+scm_default_pass: admin
