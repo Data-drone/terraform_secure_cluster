@@ -1,0 +1,37 @@
+---
+
+- hosts: cdp_servers
+  become: yes
+
+  tasks:
+  - name: debug inventory hostnames
+    debug:
+      msg: "{{ item }}"
+    with_inventory_hostnames:
+      - database
+
+  - name: make folder
+    file:
+      path: /opt/testing
+      state: directory
+      mode: '0755'
+
+  - name: testing vars
+    file:
+      path: "/opt/{{ item }}"
+      state: directory
+      mode: '0755'
+    with_inventory_hostnames:
+      - master
+  
+
+  - name: create a file
+    copy:
+      content: ""
+      dest: "/opt/{{ item }}/myfile"
+      force: no
+      group: centos
+      owner: centos
+      mode: 0644
+    with_inventory_hostnames:
+      - master

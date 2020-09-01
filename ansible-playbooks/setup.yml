@@ -1,0 +1,91 @@
+---
+    
+- name: setup ntp
+  hosts: all
+  roles:
+    - common
+  become: yes
+
+- name: setup freeipa server
+  hosts: ipaservers
+  collections:
+    - freeipa.ansible_freeipa
+  roles:
+    - role: ipaserver
+      state: present
+  vars:
+    - ansible_python_interpreter: "/usr/bin/python2.7"
+  become: yes
+
+- name: setup freeipa server
+  hosts: ipaclients
+  collections:
+    - freeipa.ansible_freeipa
+  roles:
+    - role: ipaclient
+      state: present
+  vars:
+    - ansible_python_interpreter: "/usr/bin/python2.7"    
+  become: yes
+
+- name: setup postgres
+  hosts: database
+  roles:
+    - geerlingguy.postgresql
+  vars_files:
+    - vars/database.yml
+  become: yes
+  
+- name: add db_access
+  hosts: cdp_servers
+  roles:
+    - db_driver
+  become: yes
+
+- name: add epel dependency
+  hosts: cdp_servers
+  roles:
+    - epel
+  become: yes
+
+- name: add cloudera repo
+  hosts: cdp_servers
+  roles:
+    - cm-repo
+  vars_files:
+    - vars/cm_config.yml
+  become: yes
+  
+- name: add java
+  hosts: cdp_servers
+  roles:
+    - java
+  vars_files:
+    - vars/cm_config.yml  
+  become: yes
+
+- name: run prereqs
+  hosts: all
+  roles:
+    - cdp_preinstall
+  become: yes
+
+- name: setup scm-agents
+  hosts: cdp_servers
+  roles:
+    - scm_agents
+  vars_files:
+    - vars/cm_config.yml
+    - vars/database.yml
+  become: yes
+  
+- name: setup cm-manager
+  hosts: manager
+  roles:
+    - cloudera_manager
+  vars_files:
+    - vars/cm_config.yml
+    
+  become: yes
+  tags:
+    - run
