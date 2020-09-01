@@ -1,0 +1,41 @@
+---
+
+- name: install python reqs
+  yum:
+    name: libselinux-python
+    state: present
+
+- name: disable SELinux
+  selinux:
+    state: disabled
+
+- name: Install sysfsutils for disabling transparent huge pages
+  yum:
+    name: sysfsutils
+    state: latest
+  
+- name: Disable transparent huge pages for performance - enabled
+  lineinfile:
+    path: /etc/sysfs.conf
+    create: true
+    regexp: '^kernel\/mm\/transparent\_hugepage\/enabled'
+    line: "kernel/mm/transparent_hugepage/enabled = never"
+
+- name: Disable transparent huge pages for performance - defrag
+  lineinfile:
+    path: /etc/sysfs.conf
+    create: true
+    regexp: '^kernel\/mm\/transparent\_hugepage\/defrag'
+    line: "kernel/mm/transparent_hugepage/defrag = never"  
+
+- name: disable transparent huge pages for cdh performance - live change
+  shell: echo never {{ ">" }} /sys/kernel/mm/transparent_hugepage/enabled
+
+- name: disable transparent huge pages for cdh performance - live change
+  shell: echo never {{ ">" }} /sys/kernel/mm/transparent_hugepage/defrag
+
+- name: vm.swappiness to 1 for performance
+  sysctl:
+    name: vm.swappiness
+    value: '1'
+    state: present
