@@ -56,3 +56,7 @@ postgresql_hba_entries:
 
 
 postgres_users_no_log: false
+
+postgresql_global_config_options:
+  - option: listen_addresses
+    value: "*"
