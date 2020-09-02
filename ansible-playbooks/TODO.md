@@ -6,7 +6,14 @@ swappiness and huge transparant pages again - Fixed not tested
 
 test the hostvars - kinda have it working in test
 
-- need to see how we reshuffle the database config cause we need some structure to be able to get the users mapped properly
+
+Finish CM Install:
+  - need to see how we reshuffle the database config cause we need some structure to be able to get the users mapped properly
+    - CM Services
+  - Cluster Config
+    - Multiple Clusters
+    - Before or After Kerb n TLS?
+
 
 Add in the code to kerberise
 - Should be able to just submit the details to the cluster as the krb5 and everything was done by free ipa
