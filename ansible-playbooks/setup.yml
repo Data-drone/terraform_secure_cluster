@@ -57,21 +57,18 @@
   vars_files:
     - vars/cm_config.yml  
   become: yes
-  tags: run
 
 - name: add db_access
   hosts: cdp_servers
   roles:
     - db_driver
   become: yes
-  tags: run
 
 - name: run prereqs
   hosts: all
   roles:
     - cdp_preinstall
   become: yes
-  tags: run
 
 - name: setup scm-agents
   hosts: cdp_servers
@@ -81,7 +78,6 @@
     - vars/cm_config.yml
     - vars/database.yml
   become: yes
-  tags: run
   
 - name: setup cm-manager
   hosts: manager

@@ -8,3 +8,5 @@ scm_port: 7180
 
 scm_default_user: admin
 scm_default_pass: admin
+
+scm_license_file: ../../../../secrets/bl_demo_2020_2021_cloudera_license.txt
