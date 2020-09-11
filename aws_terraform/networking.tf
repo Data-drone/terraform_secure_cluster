@@ -1,5 +1,7 @@
 provider "aws" {
     region = var.AWS_REGION
+    access_key = var.access_key
+    secret_key = var.secret_key
 }
 
 resource "aws_vpc" "mainvpc" {
@@ -73,8 +75,8 @@ resource "aws_security_group" "sec-clus-sg" {
         to_port = 22
         protocol = "tcp"
         
-        ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
-        cidr_blocks = var.ingress_cidr_blocks
+        //ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
+        cidr_blocks = concat(["${local.ifconfig_co_json.ip}/32"], var.ingress_cidr_blocks)
     }
 
     //If you do not add this rule, you can not reach the NGIX
@@ -83,8 +85,8 @@ resource "aws_security_group" "sec-clus-sg" {
         to_port = 0
         protocol = -1
 
-        ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
-        cidr_blocks = var.ingress_cidr_blocks
+        //ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
+        cidr_blocks = concat(["${local.ifconfig_co_json.ip}/32"], var.ingress_cidr_blocks)
     }
 
     tags = {
