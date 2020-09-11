@@ -17,7 +17,7 @@ ${dns} ansible_host=${master-ip[index]}
 ${dns} ansible_host=${node-ip[index]} # ${node-id[index]}
 %{ endfor ~}
 
-[cdp_servers]
+[cdp_servers:children]
 manager
 master
 worker
