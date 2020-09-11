@@ -1,5 +1,13 @@
 ---
 
+- name: make the usr/share/java folder if needed
+  file:
+    path: /usr/share/java
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+    
 - name: add postgres driver
   get_url:
     url: https://jdbc.postgresql.org/download/postgresql-42.2.16.jar

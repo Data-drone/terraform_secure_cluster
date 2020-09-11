@@ -1,51 +1,85 @@
+---
+
+databases:
+  scm:
+    name: 'scm'
+    user: 'scm'
+    pass: 'scmPass'
+  amon:
+    name: 'amon'
+    user: 'amon'
+    pass: 'amonPass'
+  rman:
+    name: 'rman'
+    user: 'rman'
+    pass: 'rmanPass'
+  hue:
+    name: 'hue'
+    user: 'hue'
+    pass: 'huePass'
+  hive:
+    name: 'metastore'
+    user: 'hive'
+    pass: 'hivePass'
+  oozie:
+    name: 'oozie'
+    user: 'oozie'
+    pass: 'ooziePass'
+  das:
+    name: 'das'
+    user: 'das'
+    pass: 'dasPass'
+  ranger:
+    name: 'ranger'
+    user: 'ranger'
+    pass: 'rangerPass'
+
 postgresql_user: postgres
 
 postgresql_users:
-  - name: 'scm'
-    password: 'scmPass'
+  - name: '{{ databases.scm.user }}'
+    password: '{{ databases.scm.pass }}'
     state: present
-  - name: 'amon'
-    password: 'amonPass'
+  - name: '{{ databases.amon.user }}'
+    password: '{{ databases.amon.pass }}'
     state: present
-  - name: 'rman'
-    password: 'rmanPass'
+  - name: '{{ databases.rman.user }}'
+    password: '{{ databases.rman.pass }}'
     state: present
-  - name: 'hue'
-    password: 'huePass'
+  - name: '{{ databases.hue.user }}'
+    password: '{{ databases.hue.pass }}'
     state: present
-  - name: 'hive'
-    password: 'hivePass'
+  - name: '{{ databases.hive.user }}'
+    password: '{{ databases.hive.pass }}'
     state: present
-  - name: 'oozie'
-    password: 'ooziePass'
+  - name: '{{ databases.oozie.user }}'
+    password: '{{ databases.oozie.pass }}'
     state: present
-  - name: 'das'
-    password: 'dasPass'
+  - name: '{{ databases.das.user }}'
+    password: '{{ databases.das.pass }}'
     state: present
-  - name: 'ranger'
-    password: 'rangerPass'
+  - name: '{{ databases.ranger.user }}'
+    password: '{{ databases.ranger.pass }}'
     state: present
 
     
 postgresql_databases:
-  - name: scm
-    owner: scm
-  - name: amon
-    owner: amon
-  - name: rman
-    owner: rman
-  - name: rman
-    owner: rman
-  - name: hue
-    owner: hue
-  - name: metastore
-    owner: hive
-  - name: oozie
-    owner: oozie
-  - name: das
-    owner: das
-  - name: ranger
-    owner: ranger
+  - name: '{{ databases.scm.name }}'
+    owner: '{{ databases.scm.user }}'
+  - name: '{{ databases.amon.name }}'
+    owner: '{{ databases.amon.user }}'
+  - name: '{{ databases.rman.name }}'
+    owner: '{{ databases.rman.user }}'
+  - name: '{{ databases.hue.name }}'
+    owner: '{{ databases.hue.user }}'
+  - name: '{{ databases.hive.name }}'
+    owner: '{{ databases.hive.user }}'
+  - name: '{{ databases.oozie.name }}'
+    owner: '{{ databases.oozie.user }}'
+  - name: '{{ databases.das.name }}'
+    owner: '{{ databases.das.user }}'
+  - name: '{{ databases.ranger.name }}'
+    owner: '{{ databases.ranger.user }}'
 
 postgresql_hba_entries:
     - {type: local, database: all, user: postgres, auth_method: peer}

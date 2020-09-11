@@ -29,6 +29,6 @@
 
   - name: enable JCE
     lineinfile:
-      path: "{{ java_home }}/jre/lib/security/java.security"
+      path: "/usr/java/default/jre/lib/security/java.security"
       regexp: '#?crypto.policy='
       line: crypto.policy=unlimited
