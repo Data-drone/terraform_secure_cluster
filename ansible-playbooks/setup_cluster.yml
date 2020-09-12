@@ -1,0 +1,11 @@
+---
+    
+    - name: setup cluster
+      hosts: manager
+      roles:
+        - cluster_install
+      vars_files:
+        - vars/cm_config.yml
+        - vars/database.yml
+      become: yes
+    

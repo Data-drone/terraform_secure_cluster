@@ -1,0 +1,45 @@
+---
+
+- include_vars: "clusters/{{ cluster_def }}/vars/cluster-vars.yml"
+
+- include_role: 
+    name: cloudera_api
+
+- debug:
+    var: cm_api_url
+    verbosity: 1
+
+- debug:
+    msg: "the cluster is {{ cluster_name }}"
+    verbosity: 1
+
+- name: Discover product versions from parcel manifests
+  uri:
+    url: "{{ item }}/manifest.json"
+    status_code: 200
+    body_format: json
+    return_content: yes
+  register: manifests
+  with_items: 
+    - "{{ scm_parcel_repositories }}"
+  
+- set_fact:
+    scm_product_list: "{{ manifests.results | map(attribute='json') | list | json_query('[*].parcels[*].parcelName') | list | sum(start=[]) }}"
+
+- set_fact:
+    scm_products: "{{ scm_product_list | map('regex_replace', '-[a-z0-9]+.parcel$','') | list | unique  }}"  
+    
+- name: generate host config
+  set_fact: 
+    host_template_json: "{{ lookup('template', 'base.j2', convert_date=False) }}"
+
+- debug:
+    var: host_template_json
+    verbosity: 1
+  
+- debug:
+    var: host_templates
+    verbosity: 1
+#- name: count host templates
+   
+  

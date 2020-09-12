@@ -1,0 +1,15 @@
+[
+  {% for host_template in host_templates %}
+  {
+    "refName": "{{ host_template.name }}",
+    "cardinality": "{{ host_template.cardinality }}",
+    "roleConfigGroupsRefNBames": [
+      {% set prod_j = joiner(",") %}
+      {%for role in host_template.roles %}
+      {{ prod_j() }}
+      {{ role }}
+      {% endfor %}
+    ]
+  }
+  {% endfor %}
+]

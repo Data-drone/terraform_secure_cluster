@@ -1,6 +1,8 @@
-scm_repo_url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/7.1.3/redhat7/yum/"
-scm_repo_gpgkey: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/7.1.3/redhat7/yum/RPM-GPG-KEY-cloudera"
-cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/7.1.3/redhat7/yum/RPMS/x86_64/openjdk8-8.0+232_9-cloudera.x86_64.rpm"
+cluster_cm_version: 7.1.3
+
+scm_repo_url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/"
+scm_repo_gpgkey: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPM-GPG-KEY-cloudera"
+cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPMS/x86_64/openjdk8-8.0+232_9-cloudera.x86_64.rpm"
 
 scm_prepare_database_script_path: "/opt/cloudera/cm/schema/scm_prepare_database.sh"
 database_type: "postgresql"
@@ -11,6 +13,8 @@ scm_default_pass: admin
 
 kdc_admin: admin
 kdc_enc: aes256-cts
+
+cluster_def: cdp-base
 
 scm_license_file: ../../../../secrets/bl_demo_2020_2021_cloudera_license.txt
 
