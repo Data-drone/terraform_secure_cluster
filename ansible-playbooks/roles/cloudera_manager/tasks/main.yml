@@ -12,7 +12,7 @@
   command: |
     {{ scm_prepare_database_script_path }}  -f
     --host {{ groups['database'][0] }}
-    {{ database_type }} scm scm scmPass
+    {{ database_type }} {{ databases.scm.name }} {{ databases.scm.user }} {{ databases.scm.pass }}
 
 - name: Create CSD directory
   file:
@@ -84,3 +84,4 @@
     verbosity: 2
 
 - include: license.yml
+- include: scm.yml

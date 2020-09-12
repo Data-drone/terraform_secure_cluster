@@ -1,0 +1,24 @@
+{
+  "items": [ 
+    {
+        "name": "KDC_HOST",
+        "value": "{{ groups['security'][0] }}"
+    }, {
+        "name": "KDC_ADMIN_HOST",
+        "value": "{{ groups['security'][0] }}"
+    }, {
+        "name": "KDC_TYPE",
+        "value": "Red Hat IPA"
+    }, {
+        "name": "SECURITY_REALM",
+        "value": "{{ hostvars[groups['ipaservers'][0]]['ipaserver_realm'] }}"
+    }, {
+        "name": "KRB_ENC_TYPES",
+        "value": "{{ kdc_enc }}"
+    }, {
+        "name": "REMOTE_PARCEL_REPO_URLS",
+        "value": {% set repo_j = joiner(",") %}
+        "{% for repo in scm_parcel_repositories %}{{ repo_j() }}{{ repo }}{% endfor %}"
+    }
+  ]
+}
