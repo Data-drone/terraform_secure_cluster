@@ -16,14 +16,11 @@ resource "aws_vpc" "mainvpc" {
 
 // get the deployer ip address
 data "http" "my_public_ip" {
-  url = "https://ifconfig.co/json"
-  request_headers = {
-    Accept = "application/json"
-  }
+  url = "http://damninter.net"
 }
 
 locals {
-  ifconfig_co_json = jsondecode(data.http.my_public_ip.body)
+  ifconfig_co_json = chomp(data.http.my_public_ip.body)
 }
 
 
@@ -76,7 +73,7 @@ resource "aws_security_group" "sec-clus-sg" {
         protocol = "tcp"
         
         //ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
-        cidr_blocks = concat(["${local.ifconfig_co_json.ip}/32"], var.ingress_cidr_blocks)
+        cidr_blocks = concat(["${local.ifconfig_co_json}/32"], var.ingress_cidr_blocks)
     }
 
     //If you do not add this rule, you can not reach the NGIX
@@ -86,7 +83,7 @@ resource "aws_security_group" "sec-clus-sg" {
         protocol = -1
 
         //ipv6_cidr_blocks = ["${local.ifconfig_co_json.ip}/128"]
-        cidr_blocks = concat(["${local.ifconfig_co_json.ip}/32"], var.ingress_cidr_blocks)
+        cidr_blocks = concat(["${local.ifconfig_co_json}/32"], var.ingress_cidr_blocks)
     }
 
     tags = {
