@@ -5,34 +5,42 @@ databases:
     name: 'scm'
     user: 'scm'
     pass: 'scmPass'
+    type: 'postgresql'
   amon:
     name: 'amon'
     user: 'amon'
     pass: 'amonPass'
+    type: 'postgresql'
   rman:
     name: 'rman'
     user: 'rman'
     pass: 'rmanPass'
+    type: 'postgresql'
   hue:
     name: 'hue'
     user: 'hue'
     pass: 'huePass'
+    type: 'postgresql'
   hive:
     name: 'metastore'
     user: 'hive'
     pass: 'hivePass'
+    type: 'postgresql'
   oozie:
     name: 'oozie'
     user: 'oozie'
     pass: 'ooziePass'
+    type: 'postgresql'
   das:
     name: 'das'
     user: 'das'
     pass: 'dasPass'
+    type: 'postgresql'
   ranger:
     name: 'ranger'
     user: 'ranger'
     pass: 'rangerPass'
+    type: 'postgresql'
 
 postgresql_user: postgres
 

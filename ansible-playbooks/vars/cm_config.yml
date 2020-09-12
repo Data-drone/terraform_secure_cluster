@@ -9,4 +9,10 @@ scm_port: 7180
 scm_default_user: admin
 scm_default_pass: admin
 
+kdc_admin: admin
+kdc_enc: aes256-cts
+
 scm_license_file: ../../../../secrets/bl_demo_2020_2021_cloudera_license.txt
+
+scm_parcel_repositories: 
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels"

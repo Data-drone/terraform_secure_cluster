@@ -8,7 +8,6 @@ test the hostvars - kinda have it working in test
 
 
 Finish CM Install:
-  - need to see how we reshuffle the database config cause we need some structure to be able to get the users mapped properly
     - CM Services
   - Cluster Config
     - Multiple Clusters
@@ -16,8 +15,6 @@ Finish CM Install:
 
 
 Add in the code to kerberise
-- Should be able to just submit the details to the cluster as the krb5 and everything was done by free ipa
-  - set the admin server / admin account / domain setting and encryption
   - Need to investigate Kerberos Ticket Renewer for Hue
 
 - Maybe can just set the tls easily as well?
