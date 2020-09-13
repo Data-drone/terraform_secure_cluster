@@ -1,0 +1,61 @@
+---
+# https://cloudera.github.io/cm_api/apidocs/v13/path__cm_importClusterTemplate.html
+- name: Import cluster template
+  uri:
+    url: "{{ cm_api_url }}/cm/importClusterTemplate?addRepositories=true"
+    method: POST
+    body_format: json
+    body: "{{ cluster_template_json|to_json }}"
+    status_code: 200
+    force_basic_auth: yes
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    return_content: yes
+  register: template_resp
+  tags: apply_template
+  
+- debug:
+    var: template_resp
+    verbosity: 1
+  tags: apply_template
+
+- set_fact:
+    command_id: "{{ template_resp.json.id }}"
+  tags: apply_template
+
+- debug:
+    msg: "Login to Cloudera Manager to monitor import progress - http://{{ groups['manager'][0] }}:{{ scm_port }}/cmf/command/{{ command_id }}/details"
+    verbosity: 1
+  tags: monitor_template
+
+- name: Wait for import cluster template command to complete
+  uri: 
+    url: "{{ cm_api_url }}/commands/{{ command_id }}"
+    body_format: json
+    force_basic_auth: yes
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    return_content: yes
+  register: result
+  until: not result.json.active
+  retries: 10
+  delay: 60
+  failed_when: "'Failed to import cluster template' in result.content"
+  tags: monitor_template
+
+- debug:
+    var: result
+  tags: monitor_template
+
+- name: Restart Cloudera Management Service
+  uri:
+    url: "{{ cm_api_url }}/cm/service/commands/restart"
+    method: POST
+    status_code: 200
+    force_basic_auth: yes
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    return_content: yes
+  register: start_resp
+  failed_when: "'startTime' not in start_resp.content"
+  tags: monitor_template

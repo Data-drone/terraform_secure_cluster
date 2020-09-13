@@ -5,12 +5,24 @@
 - include_role: 
     name: cloudera_api
 
-- debug:
-    var: cm_api_url
-    verbosity: 1
+- name: Get the host identifiers and names from Cloudera Manager
+  uri:
+    url: "{{ cm_api_url }}/hosts"
+    method: GET
+    status_code: 200
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    force_basic_auth: yes
+    return_content: yes
+  register: scm_host_list
+  
+- name: Extract the host identifiers and names into facts
+  set_fact:
+    scm_hosts: "{{ lookup('template', 'scm_host_list.j2') | from_yaml }}"
 
-- debug:
-    msg: "the cluster is {{ cluster_name }}"
+- name: Print the extracted host identifiers and names
+  debug:
+    var: scm_hosts
     verbosity: 1
 
 - name: Discover product versions from parcel manifests
@@ -31,15 +43,13 @@
     
 - name: generate host config
   set_fact: 
-    host_template_json: "{{ lookup('template', 'base.j2', convert_date=False) }}"
+    cluster_template_json: "{{ lookup('template', 'base.j2', convert_date=False) }}"
 
 - debug:
-    var: host_template_json
+    var: cluster_template_json
     verbosity: 1
-  
-- debug:
-    var: host_templates
-    verbosity: 1
+
+- include: apply_template.yml
 #- name: count host templates
    
   
