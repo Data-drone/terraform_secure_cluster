@@ -22,6 +22,10 @@ manager
 master
 worker
 
+[cluster_hosts:children]
+master
+worker
+
 [ipaservers:children]
 security
 
