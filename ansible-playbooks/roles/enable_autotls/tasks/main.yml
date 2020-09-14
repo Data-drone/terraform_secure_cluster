@@ -39,12 +39,12 @@
 
 - set_fact:
     command_id: "{{ ca_resp.json.id }}"
-    tags: send_request
+  tags: send_request
 
 - debug:
     msg: "Login to Cloudera Manager to monitor import progress - http://{{ groups['manager'][0] }}:{{ scm_port }}/cmf/command/{{ command_id }}/details"
     verbosity: 1
-    tags: send_request
+  tags: send_request
     
 - name: Wait for import cluster template command to complete
   uri: 
