@@ -1,0 +1,94 @@
+---
+
+- hosts: cdp_servers
+  become: yes
+  vars:
+    keypass: testPass
+    trustpass: trustPass
+  
+  tasks:
+  - name: make cert folder
+    file:
+      path: /opt/certs
+      state: directory
+  
+  - name: run the ipa-request
+    shell: "ipa-getcert request -f /opt/certs/ipa-{{ inventory_hostname }}.crt -k /opt/certs/ipa-{{ inventory_hostname }}.key -r -P {{ keypass }}"
+    args:
+      creates: /opt/certs/ipa-{{ inventory_hostname }}.crt
+
+  - name: fetch the crt to the ansible master
+    fetch:
+      src: /opt/certs/ipa-{{ inventory_hostname }}.crt
+      dest: tmp/certs/ipa-{{ inventory_hostname }}.crt
+      flat: yes
+
+  - name: fetch the key to the ansible master
+    fetch:
+      src: /opt/certs/ipa-{{ inventory_hostname }}.key
+      dest: tmp/certs/ipa-{{ inventory_hostname }}.key
+      flat: yes
+
+- hosts: manager
+  become: yes
+  vars:
+    keypass: testPass
+    trustpass: trustPass
+
+  tasks:
+  - name: read in the private key
+    set_fact: 
+       ssh_pk: "{{ lookup('file', '../secrets/brian_terra_key.pem') }}" 
+
+  - debug:
+      var: ssh_pk
+      verbosity: 1
+
+  - name: make the folders and stuff that we need
+    file:
+      path: /tmp/auto-tls/certs/
+      state: directory
+      mode: '0755'
+
+  - name: make the keystore pass
+    copy:
+      content: "{{ keypass }}"
+      dest: /tmp/auto-tls/keystore.txt
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0644'
+  
+  - name: make the truststore pass
+    copy:
+      content: "{{ trustpass }}"
+      dest: /tmp/auto-tls/truststore.txt
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0644'
+  
+  - name: move the certs and keys to the manager server
+    copy:
+      src: "{{ item }}"
+      dest: "/tmp/auto-tls/certs/"
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: 0644
+    with_fileglob:
+      - "tmp/certs/*"
+
+  - name: Create the AutoTLS folder
+    file:
+      path: /opt/cloudera/AutoTLS
+      state: directory
+      owner: cloudera-scm
+      group: cloudera-scm
+  
+- name: setup cluster
+  hosts: manager
+  roles:
+    - enable_autotls
+  vars_files:
+    - vars/cm_config.yml
+    - vars/database.yml
+  become: yes  
+  tags: enable_autotls
