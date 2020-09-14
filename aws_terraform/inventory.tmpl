@@ -9,12 +9,12 @@ ${security-dns} ansible_host=${security-ip} # ${security-id}
 
 [master]
 %{ for index, dns in master-dns ~}
-${dns} ansible_host=${master-ip[index]}
+${dns} ansible_host=${master-ip[index]} host_template=HostTemplate-Master${index+1} # ${master-id[index]} 
 %{ endfor ~}
 
 [worker]
 %{ for index, dns in node-dns ~}
-${dns} ansible_host=${node-ip[index]} # ${node-id[index]}
+${dns} ansible_host=${node-ip[index]} host_template=HostTemplate-Worker # ${node-id[index]}
 %{ endfor ~}
 
 [cdp_servers:children]

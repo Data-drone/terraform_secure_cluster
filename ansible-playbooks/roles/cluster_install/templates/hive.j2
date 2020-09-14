@@ -7,28 +7,22 @@
       "value": "{{ groups['database'][0] }}"
     }, {
       "name": "hive_metastore_database_type",
-      "value": "{{ databases.metastore.type }}"
+      "value": "{{ databases.hive.type }}"
     }, {
       "name": "hive_metastore_database_name",
-      "value": "{{ databases.metastore.name }}"
+      "value": "{{ databases.hive.name }}"
     }, {
       "name": "hive_metastore_database_user",
-      "value": "{{ databases.metastore.user }}"
+      "value": "{{ databases.hive.user }}"
     }, {
       "name": "hive_metastore_database_password",
-      "value": "{{ databases.metastore.pass }}"
-    }, {
-      "name": "spark_on_yarn_service",
-      "ref": "SPARK_ON_YARN-1"
+      "value": "{{ databases.hive.pass }}"
     }, {
       "name": "mapreduce_yarn_service",
       "ref": "YARN-1"
     }, {
       "name": "zookeeper_service",
       "ref": "ZOOKEEPER-1"
-    }, {
-      "name": "kudu_service",
-      "ref": "KUDU-1"
     }
   ],
   "roleConfigGroups": [
@@ -36,16 +30,6 @@
       "refName": "HIVE-1-GATEWAY-BASE",
       "roleType": "GATEWAY",
       "configs": [],
-      "base": true
-    }, {
-      "refName": "HIVE-1-WEBHCAT-BASE",
-      "roleType": "WEBHCAT",
-      "configs": [
-        {
-          "name": "hive_webhcat_address_port",
-          "value": "7272"
-        }
-      ],
       "base": true
     }, {
       "refName": "HIVE-1-HIVEMETASTORE-BASE",
@@ -57,16 +41,6 @@
         }, {
           "name": "hive_metastore_delegation_token_store",
           "value": "org.apache.hadoop.hive.thrift.DBTokenStore"
-        }
-      ],
-      "base": true
-    }, {
-      "refName": "HIVE-1-HIVESERVER2-BASE",
-      "roleType": "HIVESERVER2",
-      "configs": [
-        {
-          "name": "hiveserver2_enable_impersonation",
-          "value": "false"
         }
       ],
       "base": true
