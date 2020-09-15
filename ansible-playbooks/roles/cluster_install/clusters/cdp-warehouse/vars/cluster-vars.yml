@@ -41,13 +41,16 @@ host_templates:
   - name: HostTemplate-Master2
     cardinality: 1
     roles:
+    - "HDFS-1-HTTPFS-BASE"
     - "HDFS-1-NAMENODE-BASE"
     - "HDFS-1-JOURNALNODE-BASE"
     - "HDFS-1-FAILOVERCONTROLLER-BASE"
     - "HIVE_ON_TEZ-1-HIVESERVER2-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
     - "OOZIE-1-OOZIE_SERVER-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"
     - "YARN-1-RESOURCEMANAGER-BASE"
+    - "YARN-1-GATEWAY-BASE"
     - "ZOOKEEPER-1-SERVER-BASE"
   - name: HostTemplate-Master3
     cardinality: 1
