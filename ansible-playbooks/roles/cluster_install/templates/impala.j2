@@ -1,0 +1,34 @@
+{
+  "refName": "IMPALA-1",
+  "serviceType": "IMPALA",
+  "serviceConfigs": [{
+      "name": "hdfs_service",
+      "ref": "HDFS-1"
+    }, {
+      "name": "admission_control_enabled",
+      "value": "true"
+    }, {
+      "name": "hive_service",
+      "ref": "HIVE-1"
+    }],
+  "roleConfigGroups": [
+    {
+      "refName": "IMPALA-1-IMPALAD-BASE",
+      "roleType": "IMPALAD",
+      "base": true,
+      "configs": []
+    },
+    {
+      "refName": "IMPALA-1-STATESTORE-BASE",
+      "roleType": "STATESTORE",
+      "base": true,
+      "configs": []
+    },
+    {
+      "refName": "IMPALA-1-CATALOGSERVER-BASE",
+      "roleType": "CATALOGSERVER",
+      "base": true,
+      "configs": []
+    }
+  ]
+}

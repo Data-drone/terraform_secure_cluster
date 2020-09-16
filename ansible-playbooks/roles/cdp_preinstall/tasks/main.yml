@@ -39,3 +39,11 @@
     name: vm.swappiness
     value: '1'
     state: present
+
+- name: Fix IPA kerberos settings
+  lineinfile:
+    path: /etc/krb5.conf
+    regexp: '^  renew_lifetime*'
+    insertbefore: '^  forwardable'
+    state: present
+    line: '  renew_lifetime = 7d'
