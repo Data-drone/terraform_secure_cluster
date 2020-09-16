@@ -1,11 +1,20 @@
 ---
+    # this is version specific - currently set to 7
+  - name: setup cloudera management services
+    hosts: manager
+    roles:
+      - cloudera_management_services_7
+    vars_files:
+      - vars/cm_config.yml
+      - vars/database.yml
+    become: yes
     
-    - name: setup cluster
-      hosts: manager
-      roles:
-        - cluster_install
-      vars_files:
-        - vars/cm_config.yml
-        - vars/database.yml
-      become: yes
-    
+  - name: setup cluster
+    hosts: manager
+    roles:
+      - cluster_install
+    vars_files:
+      - vars/cm_config.yml
+      - vars/database.yml
+    become: yes
+  
