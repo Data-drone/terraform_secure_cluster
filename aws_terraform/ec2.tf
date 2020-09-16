@@ -1,5 +1,5 @@
 resource "aws_instance"  "security"  {
-    ami = "ami-0b2045146eb00b617"
+    ami = var.ami
     instance_type = "m5.4xlarge"
     key_name = var.ssh-key
 
@@ -22,7 +22,7 @@ resource "aws_instance"  "security"  {
 }
 
 resource "aws_instance"  "master"  {
-    ami = "ami-0b2045146eb00b617"
+    ami = var.ami
     instance_type = "m5.2xlarge"
     key_name = var.ssh-key
 
@@ -47,7 +47,7 @@ resource "aws_instance"  "master"  {
 }
 
 resource "aws_instance"  "node"  {
-    ami = "ami-0b2045146eb00b617"
+    ami = var.ami
     instance_type = "m5.2xlarge"
     key_name = var.ssh-key
 

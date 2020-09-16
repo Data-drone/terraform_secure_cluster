@@ -20,6 +20,11 @@ variable "owner" {
     default = "autosecure"
 }
 
+variable "ami" {
+    type = string
+    default = "ami-0b2045146eb00b617"
+}
+
 variable "AWS_REGION" {
     type = string
     default = "ap-southeast-2"
