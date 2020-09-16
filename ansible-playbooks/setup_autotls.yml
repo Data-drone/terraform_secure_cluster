@@ -38,7 +38,9 @@
   tasks:
   - name: read in the private key
     set_fact: 
-       ssh_pk: "{{ lookup('file', '../secrets/brian_terra_key.pem') }}" 
+       ssh_pk: "{{ lookup('file', '../secrets/brian_terra_key.pem') | trim }}" 
+    tags:
+      - build_request
 
   - debug:
       var: ssh_pk
@@ -91,3 +93,5 @@
     - vars/cm_config.yml
     - vars/database.yml
   become: yes  
+  tags:
+    - build_request

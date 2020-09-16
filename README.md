@@ -21,3 +21,19 @@ ansible-playbook -i aws_terraform/inventory ansible-playbooks/playbooks/test.yml
 ansible -i aws_terraform/inventory cdp_servers --private-key ../terraforming/secrets/brian_terra_key.pem -m debug -a "var=inventory_hostname"
 
 ```
+
+# Quick Debug
+
+ipa server crashes with prewarmed image due to:
+
+"msg": "httpd is already configured to listen on 443."
+
+fix option remove: mod_ssl
+
+```{bash}
+
+ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m yum -a "name=mod_ssl state=absent" --become
+
+```
+
+cloudera manager agent is adding this....

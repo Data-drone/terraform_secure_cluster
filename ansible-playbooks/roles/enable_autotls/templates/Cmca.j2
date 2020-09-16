@@ -1,25 +1,25 @@
 {
-    "location": "/opt/cloudera/AutoTLS",
-    "customCA": true,
-    "interpretAsFilenames": true,
-    "cmHostCert": "/tmp/auto-tls/certs/ipa-{{ groups['manager'][0] }}.crt",
-    "cmHostKey": "/tmp/auto-tls/certs/ipa-{{ groups['manager'][0] }}.key",
-    "caCert": "/etc/ipa/ca.crt",
-    "keystorePasswd": "/tmp/auto-tls/keystore.txt",
-    "truststorePasswd": "/tmp/auto-tls/truststore.txt",
-    "hostCerts": [
-        {% set host_j = joiner(",") %}
-        {% for host in groups['cluster_hosts'] %}
-        {{ host_j() }}
-        {
-            "hostname": "{{ host }}",
-            "certificate": "/tmp/auto-tls/certs/ipa-{{ host }}.crt",
-            "key": "/tmp/auto-tls/certs/ipa-{{ host }}.key"
-        }
-        {% endfor %}
-    ],
-    "configureAllServices": "true",
-    "sshPort": 22,
-    "userName": "centos",
-    "privateKey": "{{ private_key_text }}"
+  "location": "/opt/cloudera/AutoTLS",
+  "customCA": true,
+  "interpretAsFilenames": true,
+  "cmHostCert": "/tmp/auto-tls/certs/ipa-{{ groups["manager"][0] }}.crt",
+  "cmHostKey": "/tmp/auto-tls/certs/ipa-{{ groups["manager"][0] }}.key",
+  "caCert": "/etc/ipa/ca.crt",
+  "keystorePasswd": "/tmp/auto-tls/keystore.txt",
+  "truststorePasswd": "/tmp/auto-tls/truststore.txt",
+  "hostCerts": [
+    {% set host_j = joiner(",") %}
+    {% for host in groups["cluster_hosts"] %}
+    {{ host_j() }}
+    {
+      "hostname": "{{ host }}",
+      "certificate": "/tmp/auto-tls/certs/ipa-{{ host }}.crt",
+      "key": "/tmp/auto-tls/certs/ipa-{{ host }}.key"
+    }
+    {% endfor %}
+  ],
+  "configureAllServices": "true",
+  "sshPort": 22,
+  "userName": "centos",
+    "privateKey": "{{ private_key_text2 | replace('\n', ' ')  }}"
 }

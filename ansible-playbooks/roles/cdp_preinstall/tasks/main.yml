@@ -40,6 +40,11 @@
     value: '1'
     state: present
 
+- name: check if the krb5 exists first (doesn't in prewarming)
+  stat:
+    path: /etc/krb5.conf
+  register: stat_result
+
 - name: Fix IPA kerberos settings
   lineinfile:
     path: /etc/krb5.conf
@@ -47,3 +52,4 @@
     insertbefore: '^  forwardable'
     state: present
     line: '  renew_lifetime = 7d'
+  when: stat_result.exists

@@ -14,7 +14,7 @@
 
 - name: Debug the Cmca file
   debug:
-    var: cmca_message
+    var: cmca_message | to_json
     verbosity: 1
 
 #https://archive.cloudera.com/cm7/7.1.3/generic/jar/cm_api/apidocs/json_ApiGenerateCmcaArguments.html
@@ -23,7 +23,7 @@
     url: "{{ cm_api_url }}/cm/commands/generateCmca"
     method: POST
     body_format: json
-    body: "{{ cmca_message|to_json }}"
+    body: "{{ cmca_message | to_json }}"
     status_code: 200
     force_basic_auth: yes
     user: "{{ scm_default_user }}"

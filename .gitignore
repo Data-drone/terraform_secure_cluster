@@ -1,5 +1,6 @@
 secrets/secrets.yml
 secrets/testing.tfvars
 secrets/bl_demo_2020_2021_cloudera_license.txt
+secrets/*.pem
 ansible-playbooks/tmp/*
 secrets/packer_vars.json
