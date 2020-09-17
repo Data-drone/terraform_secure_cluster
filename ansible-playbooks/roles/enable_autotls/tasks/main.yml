@@ -3,19 +3,31 @@
 - include_role: 
     name: cloudera_api
 
-- name: Print the extracted cluster hosts
-  debug:
-    var: groups['cluster_hosts']
-    verbosity: 2
-
 - name: setup the json message and see if it looks right
   set_fact:
-    cmca_message: "{{ lookup('template', 'Cmca.j2', convert_date=False) }}"
+    cmca_message: "{{ lookup('template', 'Cmca.j2') | to_nice_json }}"
 
-- name: Debug the Cmca file
-  debug:
-    var: cmca_message | to_json
-    verbosity: 1
+- name: Fix up the json
+  template:
+    src: Cmca.j2
+    dest: /tmp/cmca_json.json
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0755'
+
+- name: fetch file to the ansible machine to make uri work
+  fetch:
+    src: /tmp/cmca_json.json
+    dest: tmp/cmca_json.json
+    flat: yes
+
+#- name: Debug the Cmca file
+#  debug:
+#    var: cmca_message
+#    verbosity: 1
+
+#- name: submit the request - using curl cause it's easier
+#  command: "curl -i -v -uadmin:admin -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '@/opt/cmca_request.json' '{{ cm_api_url }}/cm/commands/generateCmca'"
 
 #https://archive.cloudera.com/cm7/7.1.3/generic/jar/cm_api/apidocs/json_ApiGenerateCmcaArguments.html
 - name: submit the auto-tls request
@@ -23,7 +35,7 @@
     url: "{{ cm_api_url }}/cm/commands/generateCmca"
     method: POST
     body_format: json
-    body: "{{ cmca_message | to_json }}"
+    body: "{{ lookup('file', 'tmp/cmca_json.json') }}"
     status_code: 200
     force_basic_auth: yes
     user: "{{ scm_default_user }}"
