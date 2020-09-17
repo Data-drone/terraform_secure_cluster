@@ -1,0 +1,88 @@
+---
+
+- hosts: manager
+  become: yes
+  vars_files:
+    - ../vars/cm_config.yml
+  vars:
+    empty: [null]
+
+  tasks:
+  - name: get the manifest file
+    get_url:
+      url: https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/manifest.json
+      dest: /tmp/manifest.json
+
+  - name: extract manifest
+    shell: cat /tmp/manifest.json
+    register: result
+
+  - name: set the facts
+    set_fact:
+      parcel_manifest: "{{ result.stdout | from_json }}"
+
+  - name: examine the result
+    debug:
+      var: parcel_manifest
+      verbosity: 1
+
+  - name: get the parcels list
+    set_fact:
+      parcel_list: "{{ parcel_manifest.parcels | map(attribute='parcelName') | list }}"
+
+  - name: regex out the ones that match el7
+    set_fact:
+      el7_parcels: "{{ parcel_list | map('regex_search', '\\S+-el7\\.parcel$') | list | difference(empty) }}"
+
+  - name: examine the result
+    debug:
+      var: el7_parcels
+      verbosity: 1
+
+  - name: return hashes
+    debug: msg="{{ parcel_manifest.parcels | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "[*].{parcelName: parcelName, hash: hash}"
+
+  - name: return hashes
+    debug: msg="{{ parcel_manifest.parcels | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "[? parcelName=='CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel'].{parcelName: parcelName, hash: hash}"
+  
+  - name: try new search
+    debug:
+      var: item.hash
+    with_items: "{{ parcel_manifest.parcels }}"
+    when: item.parcelName.endswith('el7.parcel')
+
+  - name: register the jmsquery result
+    set_fact:
+      filtered_list: "{{ parcel_manifest.parcels | json_query(jmesquery) }}"
+    vars:
+      jmesquery: "[*].{parcelName: parcelName, hash: hash}"
+  
+      ### this works!!
+  - name: try another search
+    set_fact:
+      hashes: "{{ item.hash }}"
+    with_items: "{{ parcel_manifest.parcels }}"
+    when: item.parcelName.endswith('el7.parcel')
+
+  - name: try another search
+    set_fact:
+      parcelNames: "{{ item.parcelName }}"
+    with_items: "{{ parcel_manifest.parcels }}"
+    when: item.parcelName.endswith('el7.parcel')
+  
+  - name: write out our shas
+    copy:
+      content: "{{ item.1 }}"
+      dest: "/opt/{{ item.0 }}.sha"
+    with_together:
+        - "{{ parcelNames }}"
+        - "{{ hashes }}"
+    #when: item.parcelName.endswith('el7.parcel')
+        
+
+  #- name: find the parcel hashes
+  
