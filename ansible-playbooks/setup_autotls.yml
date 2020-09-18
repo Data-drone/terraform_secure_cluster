@@ -102,9 +102,8 @@
   tasks:
   - name: restart manager
     systemd:
-      name: cloudera-scm-manager
+      name: cloudera-scm-server
       state: restarted
-      become: yes
 
 - hosts: cdp_servers
   become: yes
@@ -114,4 +113,3 @@
     systemd:
       name: cloudera-scm-agent
       state: restarted
-      
