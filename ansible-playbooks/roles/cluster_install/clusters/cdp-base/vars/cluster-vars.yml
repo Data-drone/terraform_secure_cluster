@@ -1,6 +1,8 @@
 cluster_version: 7.1.3
 cluster_name: cdp-base
 
+hdfs_is_ha: true
+
 cluster_services:
 
   - type: hdfs

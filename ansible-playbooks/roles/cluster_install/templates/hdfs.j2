@@ -61,6 +61,8 @@
       "refName": "HDFS-1-NAMENODE-BASE",
       "roleType": "NAMENODE",
       "configs": [
+        
+        {% if hdfs_is_ha == 'true' %}
         {
           "name": "dfs_federation_namenode_nameservice",
           "value": "nameservice1"
@@ -70,7 +72,10 @@
         }, {
           "name": "autofailover_enabled",
           "value": "true"
-        }, {
+        }, 
+        {% endif %}
+
+        {
           "name": "dfs_name_dir_list",
           "variable": "DFS_NAME_DIR_LIST"
         }

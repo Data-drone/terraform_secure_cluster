@@ -1,0 +1,62 @@
+cluster_version: 7.1.3
+cluster_name: cdp-singlenode
+
+hdfs_is_ha: false
+
+cluster_services:
+
+  - type: hdfs
+    dfs_data_dir_list: /dfs/dn
+    fs_checkpoint_dir_list: /dfs/snn
+    dfs_name_dir_list: /dfs/nn
+    dfs_journalnode_edits_dir: /dfs/jn
+
+  - type: hive
+
+  - type: hive_on_tez
+
+  - type: hue
+
+  - type: impala
+
+  - type: oozie
+
+  - type: spark
+
+  - type: yarn
+    yarn_nodemanager_local_dirs: /tmp/nm
+    yarn_nodemanager_log_dirs: /var/log/nm
+
+  - type: yarn_queuemanager
+
+  - type: zookeeper
+
+host_templates:
+  - name: HostTemplate-Master1
+    cardinality: 1
+    roles:
+    - "HDFS-1-BALANCER-BASE"
+    - "HDFS-1-DATANODE-BASE"
+    - "HDFS-1-HTTPFS-BASE"
+    - "HDFS-1-NAMENODE-BASE"
+    - "HDFS-1-SECONDARYNAMENODE-BASE"
+    - "HIVE-1-GATEWAY-BASE"
+    - "HIVE-1-HIVEMETASTORE-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+    - "HIVE_ON_TEZ-1-HIVESERVER2-BASE"
+    - "HUE-1-HUE_SERVER-BASE"
+    - "HUE-1-HUE_LOAD_BALANCER-BASE"
+    - "HUE-1-KT_RENEWER-BASE"
+    - "IMPALA-1-CATALOGSERVER-BASE"
+    - "IMPALA-1-IMPALAD-BASE"
+    - "IMPALA-1-STATESTORE-BASE"
+    - "OOZIE-1-OOZIE_SERVER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
+    - "YARN-1-JOBHISTORY-BASE"
+    - "YARN-1-NODEMANAGER-BASE"
+    - "YARN-1-RESOURCEMANAGER-BASE"
+    - "QUEUEMANAGER-1-QUEUEMANAGER_WEBAPP-BASE"
+    - "QUEUEMANAGER-1-QUEUEMANAGER_STORE-BASE"
+    - "ZOOKEEPER-1-SERVER-BASE"
+
