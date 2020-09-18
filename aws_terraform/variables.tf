@@ -49,6 +49,26 @@ variable "master_count" {
     default = 1
 }
 
+variable "cdsw_master" {
+    type = number
+    default = 0 # this should only ever be 1
+}
+
+variable "cdsw_node" {
+    type = number
+    default = 0
+}
+
+variable "cdf_master" {
+    type = number
+    default = 0
+}
+
+variable "cdf_node" {
+    type = number
+    default = 0
+}
+
 variable "volume_type" {
     type = string
     default = "gp2"

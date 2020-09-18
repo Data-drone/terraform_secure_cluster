@@ -17,21 +17,49 @@ ${dns} ansible_host=${master-ip[index]} host_template=HostTemplate-Master${index
 ${dns} ansible_host=${node-ip[index]} host_template=HostTemplate-Worker # ${node-id[index]}
 %{ endfor ~}
 
+[cdsw_master]
+%{ for index, dns in cdsw_master-dns ~}
+${dns} ansible_host=${cdsw_master-ip[index]} host_template=HostTemplate-CDSWMaster${index+1} # ${cdsw_master-id[index]} 
+%{ endfor ~}
+
+[cdsw_worker]
+%{ for index, dns in cdsw_node-dns ~}
+${dns} ansible_host=${cdsw_node-ip[index]} host_template=HostTemplate-CDSWWorker # ${cdsw_node-id[index]}
+%{ endfor ~}
+
+[cdf_master]
+%{ for index, dns in cdf_master-dns ~}
+${dns} ansible_host=${cdf_master-ip[index]} host_template=HostTemplate-CDFMaster${index+1} # ${cdf_master-id[index]} 
+%{ endfor ~}
+
+[cdf_worker]
+%{ for index, dns in cdf_node-dns ~}
+${dns} ansible_host=${cdf_node-ip[index]} host_template=HostTemplate-CDFWorker # ${cdf_node-id[index]} 
+%{ endfor ~}
+
 [cdp_servers:children]
 manager
 master
 worker
+cdsw_master
+cdsw_worker
+cdf_master
+cdf_worker
 
 [cluster_hosts:children]
 master
 worker
+cdsw_master
+cdsw_worker
+cdf_master
+cdf_worker
 
 [ipaservers:children]
 security
 
 [ipaservers:vars]
 ipaadmin_password=ADMPassword1
-ipadm_password=DMPassword1
+ipadm_password=DMPassword1 # this is the directory manager for ldap stuff
 ipaserver_domain=seccluster.local
 ipaserver_realm=SECCLUSTER.LOCAL
 ipaserver_setup_dns=no
