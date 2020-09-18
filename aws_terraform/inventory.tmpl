@@ -33,8 +33,8 @@ ${dns} ansible_host=${cdf_master-ip[index]} host_template=HostTemplate-CDFMaster
 %{ endfor ~}
 
 [cdf_worker]
-%{ for index, dns in cdf_node-dns ~}
-${dns} ansible_host=${cdf_node-ip[index]} host_template=HostTemplate-CDFWorker # ${cdf_node-id[index]} 
+%{ for index, dns in cdf_worker-dns ~}
+${dns} ansible_host=${cdf_worker-ip[index]} host_template=HostTemplate-CDFWorker # ${cdf_worker-id[index]} 
 %{ endfor ~}
 
 [cdp_servers:children]
@@ -69,6 +69,10 @@ ipaserver_auto_forwarders=no
 [ipaclients:children]
 master
 worker
+cdsw_master
+cdsw_worker
+cdf_master
+cdf_worker
 
 [ipaclients:vars]
 ipaadmin_password=ADMPassword1

@@ -23,7 +23,7 @@ resource "aws_instance"  "security"  {
 
 resource "aws_instance"  "master"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.master_instance
     key_name = var.ssh-key
 
     count = var.master_count
@@ -48,7 +48,7 @@ resource "aws_instance"  "master"  {
 
 resource "aws_instance"  "node"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.worker_instance
     key_name = var.ssh-key
 
     count = var.new_node_count
@@ -74,7 +74,7 @@ resource "aws_instance"  "node"  {
 
 resource "aws_instance"  "cdsw_master"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.cdsw_master_instance
     key_name = var.ssh-key
 
     count = var.cdsw_master
@@ -99,7 +99,7 @@ resource "aws_instance"  "cdsw_master"  {
 
 resource "aws_instance"  "cdsw_node"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.cdsw_worker_instance
     key_name = var.ssh-key
 
     count = var.cdsw_node
@@ -124,7 +124,7 @@ resource "aws_instance"  "cdsw_node"  {
 
 resource "aws_instance"  "cdf_master"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.cdf_master_instance
     key_name = var.ssh-key
 
     count = var.cdf_master
@@ -147,9 +147,9 @@ resource "aws_instance"  "cdf_master"  {
 
 }
 
-resource "aws_instance"  "cdf_node"  {
+resource "aws_instance"  "cdf_worker"  {
     ami = var.ami
-    instance_type = "m5.2xlarge"
+    instance_type = var.cdf_worker_instance
     key_name = var.ssh-key
 
     count = var.cdf_node

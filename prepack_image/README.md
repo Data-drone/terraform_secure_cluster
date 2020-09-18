@@ -32,5 +32,6 @@ ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/bri
 
 ```
 
-need a sha and torrent?
+- sha from manifest and json parse
+- torrent is created by cm
 That is what is produced by a normal dload and distribute

@@ -78,3 +78,33 @@ variable "volume_size" {
     type = number
     default = 100
 }
+
+variable "master_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
+
+variable "worker_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
+
+variable "cdsw_master_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
+
+variable "cdsw_worker_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
+
+variable "cdf_master_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
+
+variable "cdf_worker_instance" {
+    type = string
+    default = "m5.2xlarge"
+}
