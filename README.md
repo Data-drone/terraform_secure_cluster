@@ -37,3 +37,22 @@ ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/bri
 ```
 
 cloudera manager agent is adding this....
+
+---------------------------------
+
+Issue with prewarming...
+Testing permissions?
+
+```{bash}
+
+ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m file -a "path=/opt/cloudera/parcel-repo recurse=true owner=cloudera-scm group=cloudera-scm mode='0740'" --become
+
+# restart the agent
+ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m systemd -a "name=cloudera-scm-agent state=restarted" --become
+
+# restart the server
+ansible -i aws_terraform/inventory manager --private-key ../terraforming/secrets/brian_terra_key.pem -m systemd -a "name=cloudera-scm-server state=restarted" --become
+
+
+
+```

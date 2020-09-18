@@ -44,7 +44,7 @@
       state: directory
       owner: cloudera-scm
       group: cloudera-scm
-      mode: '0755'
+      mode: '0740'
     loop:
       - "/opt/cloudera/parcel-repo"
       - "/opt/cloudera/parcels"
@@ -72,7 +72,7 @@
       dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}.sha"
       owner: cloudera-scm
       group: cloudera-scm
-      mode: '0755'
+      mode: '0740'
     with_items: "{{ parcel_manifest.parcels }}"
     when: item.parcelName.endswith('el7.parcel')
 
@@ -80,13 +80,19 @@
     get_url:
       url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/{{ item.parcelName }}"
       dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}"
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0740'
     with_items: "{{ parcel_manifest.parcels }}"
+    when: item.parcelName.endswith('el7.parcel')
 
-  - name: get sha file? 
-    get_url:
-      url: https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/{{ item.parcelName }}.sha256
-      dest: /opt/cloudera/parcel-repo/{{ item.parcelName }}.sha
-    with_items: "{{ parcel_manifest.parcels }}"
+  #- name: get sha file? 
+  #  get_url:
+  #    url: https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/{{ item.parcelName }}.sha256
+  #    dest: /opt/cloudera/parcel-repo/{{ item.parcelName }}.sha
+  #  with_items: "{{ parcel_manifest.parcels }}"
+  #  when: item.parcelName.endswith('el7.parcel')
+    
     #loop:
     #  - "CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel"
     #  - "CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel.sha1"    
@@ -98,12 +104,18 @@
     unarchive:
       src: /opt/cloudera/parcel-repo/CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel
       dest: /opt/cloudera/parcels/
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0740'
       remote_src: yes
 
   - name: symlink the parcel dir
     file:
       src: /opt/cloudera/parcels/CDH-7.1.3-1.cdh7.1.3.p0.4992530
       dest: /opt/cloudera/parcels/CDH
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0740'
       state: link
 
   - name: create don't delete
@@ -112,6 +124,7 @@
       state: touch
       owner: cloudera-scm
       group: cloudera-scm
+      mode: '0740'
 
   - name: bulk chown
     file:
@@ -120,4 +133,4 @@
       recurse: yes
       owner: cloudera-scm
       group: cloudera-scm
-      mode: '0755'
+      mode: '0740'

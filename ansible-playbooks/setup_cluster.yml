@@ -8,6 +8,8 @@
       - vars/cm_config.yml
       - vars/database.yml
     become: yes
+    tags:
+      - management_service
     
   - name: setup cluster
     hosts: manager
