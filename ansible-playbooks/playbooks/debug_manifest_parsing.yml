@@ -61,7 +61,7 @@
     vars:
       jmesquery: "[*].{parcelName: parcelName, hash: hash}"
   
-      ### this works!!
+  ### this works!!
   - name: try another search
     set_fact:
       hashes: "{{ item.hash }}"
@@ -82,7 +82,16 @@
         - "{{ parcelNames }}"
         - "{{ hashes }}"
     #when: item.parcelName.endswith('el7.parcel')
-        
 
+  - name: write out shas 2
+    copy:
+      content: "{{ item.hash }}"
+      dest: "/opt/{{ item.parcelName }}.sha"
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0640'
+    with_items: "{{ parcel_manifest.parcels }}"
+    when: item.parcelName.endswith('el7.parcel')
+    
   #- name: find the parcel hashes
   
