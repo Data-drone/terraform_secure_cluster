@@ -1,0 +1,69 @@
+---
+
+- name: get the manifest file
+  get_url:
+    url: "{{ parcel_path }}/manifest.json"
+    dest: /tmp/manifest.json
+    force: yes
+
+- name: extract manifest
+  shell: cat /tmp/manifest.json
+  register: result
+
+- name: set the facts
+  set_fact:
+    parcel_manifest: "{{ result.stdout | from_json }}"
+
+- name: write out shas
+  copy:
+    content: "{{ item.hash }}"
+    dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}.sha"
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'
+  with_items: "{{ parcel_manifest.parcels }}"
+  when: item.parcelName.endswith('el7.parcel')
+
+- name: get parcelName
+  set_fact:
+    parcel_name: "{{ item.parcelName }}" 
+  with_items: "{{ parcel_manifest.parcels }}"
+  when: item.parcelName.endswith('el7.parcel')
+  
+- name: get the product name
+  set_fact:
+    product_name: "{{ parcel_name.split('-')[0] }}" 
+
+- name: get parcels  
+  get_url:
+    url: "{{ parcel_path }}/{{ parcel_name }}"
+    dest: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'
+  
+- name: extract parcels
+  unarchive:
+    src: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
+    dest: /opt/cloudera/parcels/
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'
+    remote_src: yes
+
+- name: symlink the parcel dir
+  file:
+    src: "/opt/cloudera/parcels/{{ parcel_name }}"
+    dest: "/opt/cloudera/parcels/{{ product_name }}"
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'
+    state: link
+
+- name: create don't delete
+  file:
+    path: /opt/cloudera/parcels/{{ product_name }}/.dont_delete
+    state: touch
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'

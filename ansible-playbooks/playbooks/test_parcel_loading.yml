@@ -1,0 +1,12 @@
+---
+
+- hosts: manager
+  become: yes
+
+  tasks:
+  - name: get the manifest files
+    include_tasks: process_parcel_repo.yml
+    with_flattened: 
+      - "{{ scm_parcel_repositories }}"
+    loop_control:
+      loop_var: parcel_path
