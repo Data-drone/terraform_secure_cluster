@@ -24,7 +24,7 @@ scm_parcel_repositories:
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/parcels/"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/csa/1.2.0.0/parcels/"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/parcels/"
-  - "https://repo.anaconda.com/pkgs/misc/parcels/"
+  - "https://repo.anaconda.com/pkgs/misc/parcels"
 
 scm_prepare_database_script_path: "/opt/cloudera/cm/schema/scm_prepare_database.sh"
 database_type: "postgresql"
