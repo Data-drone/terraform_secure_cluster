@@ -59,65 +59,16 @@
     with_items: "{{ scm_csds }}"
     when: scm_csds is defined
 
-# need to make this into some sort of role that reads from a list in future
-  - name: get the manifest file
-    get_url:
-      url: https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/manifest.json
-      dest: /tmp/manifest.json
-
-  - name: extract manifest
-    shell: cat /tmp/manifest.json
-    register: result
-
-  - name: set the facts
+  - name: merge the main parcel in with the other component ones
     set_fact:
-      parcel_manifest: "{{ result.stdout | from_json }}"
-   
-  - name: write out shas
-    copy:
-      content: "{{ item.hash }}"
-      dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}.sha"
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
-    with_items: "{{ parcel_manifest.parcels }}"
-    when: item.parcelName.endswith('el7.parcel')
+      parcel_list: "{{ scm_parcel_repositories + main_parcel }}"
 
-  - name: get parcels  
-    get_url:
-      url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/{{ item.parcelName }}"
-      dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}"
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
-    with_items: "{{ parcel_manifest.parcels }}"
-    when: item.parcelName.endswith('el7.parcel')
-
-  - name: extract parcels
-    unarchive:
-      src: /opt/cloudera/parcel-repo/CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel
-      dest: /opt/cloudera/parcels/
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
-      remote_src: yes
-
-  - name: symlink the parcel dir
-    file:
-      src: /opt/cloudera/parcels/CDH-7.1.3-1.cdh7.1.3.p0.4992530
-      dest: /opt/cloudera/parcels/CDH
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
-      state: link
-
-  - name: create don't delete
-    file:
-      path: /opt/cloudera/parcels/CDH/.dont_delete
-      state: touch
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
+  - name: get the manifest files
+    include_tasks: playbooks/process_parcel_repo.yml
+    with_flattened: 
+      - "{{ parcel_list }}"
+    loop_control:
+      loop_var: parcel_path
 
   - name: bulk chown
     file:

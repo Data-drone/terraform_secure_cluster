@@ -34,6 +34,13 @@
   set_fact:
     product_name: "{{ parcel_name.split('-')[0] }}" 
 
+- name: get folder path
+  set_fact:
+    extract_folder: "{{ product_name | regex_replace('.parcel', '') }}"
+
+- name: debug extract_folder
+  debug: var=extract_folder
+
 - name: get parcels  
   get_url:
     url: "{{ parcel_path }}/{{ parcel_name }}"
@@ -51,9 +58,10 @@
     mode: '0740'
     remote_src: yes
 
+# need to get just the parcel name with .parcel
 - name: symlink the parcel dir
   file:
-    src: "/opt/cloudera/parcels/{{ parcel_name }}"
+    src: "/opt/cloudera/parcels/{{ extract_folder }}"
     dest: "/opt/cloudera/parcels/{{ product_name }}"
     owner: cloudera-scm
     group: cloudera-scm
