@@ -34,9 +34,12 @@
   set_fact:
     product_name: "{{ parcel_name.split('-')[0] }}" 
 
+- name: debug product_name
+  debug: var=product_name
+
 - name: get folder path
   set_fact:
-    extract_folder: "{{ product_name | regex_replace('.parcel', '') }}"
+    extract_folder: "{{ parcel_name | regex_replace('-el7.parcel', '') }}"
 
 - name: debug extract_folder
   debug: var=extract_folder
@@ -57,6 +60,11 @@
     group: cloudera-scm
     mode: '0740'
     remote_src: yes
+  register: archive_contents
+
+- name: debug the parcel contents
+  debug: 
+    var: archive_contents 
 
 # need to get just the parcel name with .parcel
 - name: symlink the parcel dir
@@ -67,7 +75,7 @@
     group: cloudera-scm
     mode: '0740'
     state: link
-
+  
 - name: create don't delete
   file:
     path: /opt/cloudera/parcels/{{ product_name }}/.dont_delete

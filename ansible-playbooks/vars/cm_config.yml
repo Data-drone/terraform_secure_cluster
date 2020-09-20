@@ -1,8 +1,30 @@
 cluster_cm_version: 7.1.3
 
+cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPMS/x86_64/openjdk8-8.0+232_9-cloudera.x86_64.rpm"
+
 scm_repo_url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/"
 scm_repo_gpgkey: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPM-GPG-KEY-cloudera"
-cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPMS/x86_64/openjdk8-8.0+232_9-cloudera.x86_64.rpm"
+
+cfm_version: 2.0.1.0
+
+# main parcel for prewarming
+main_parcel:
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels/"
+
+scm_csds:
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/centos7/2.x/updates/{{ cfm_version }}/tars/parcel/NIFI-1.11.4.2.0.1.0-71.jar"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/centos7/2.x/updates/{{ cfm_version }}/tars/parcel/NIFIREGISTRY-0.6.0.2.0.1.0-71.jar"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/csd/CLOUDERA_DATA_SCIENCE_WORKBENCH-CDPDC-1.8.0.jar"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/csa/1.2.0.0/csd/FLINK-1.10.0-csa1.2.0.0-cdh7.1.1.0-565-3525501.jar"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/csd/LIVY_FOR_SPARK3-0.6.0.3.0.7110.0-81.jar"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/csd/SPARK3_ON_YARN-3.0.1.3.0.7110.0-81.jar"
+  
+scm_parcel_repositories:
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/centos7/2.x/updates/{{ cfm_version }}/tars/parcel/"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/parcels/"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/csa/1.2.0.0/parcels/"
+  - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/parcels/"
+  - "https://repo.anaconda.com/pkgs/misc/parcels/"
 
 scm_prepare_database_script_path: "/opt/cloudera/cm/schema/scm_prepare_database.sh"
 database_type: "postgresql"
@@ -14,9 +36,6 @@ scm_default_pass: admin
 kdc_admin: admin
 kdc_enc: aes256-cts
 
-cluster_def: cdp-warehouse
+cluster_def: cdp-singlenode
 
 scm_license_file: ../../../../secrets/bl_demo_2020_2021_cloudera_license.txt
-
-scm_parcel_repositories: 
-  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdh7/7.1.3.0/parcels"
