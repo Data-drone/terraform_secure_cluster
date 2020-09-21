@@ -51,6 +51,9 @@
     owner: cloudera-scm
     group: cloudera-scm
     mode: '0740'
+
+- name: build torrent for parcel
+  shell: transmission-create -s 512 -o "/opt/cloudera/parcel-repo/{{ parcel_name }}.torrent" "/opt/cloudera/parcel-repo/{{ parcel_name }}"
   
 - name: extract parcels
   unarchive:

@@ -50,6 +50,8 @@
       - "/opt/cloudera/parcel-repo"
       - "/opt/cloudera/parcels"
       - "/opt/cloudera/parcel-cache"
+    tags:
+      - preload_parcels
 
   - name: Download CSDs
     get_url:
@@ -58,17 +60,24 @@
       mode: 0644
     with_items: "{{ scm_csds }}"
     when: scm_csds is defined
+    tags:
+      - preload_parcels
 
-  - name: merge the main parcel in with the other component ones
-    set_fact:
-      parcel_list: "{{ scm_parcel_repositories + main_parcel }}"
+  - name: install transmission
+    yum:
+      name: transmission
+      state: present
+    tags:
+      - preload_parcels
 
   - name: get the manifest files
     include_tasks: playbooks/process_parcel_repo.yml
     with_flattened: 
-      - "{{ parcel_list }}"
+      - "{{ scm_parcel_repositories }}"
     loop_control:
       loop_var: parcel_path
+    tags:
+      - preload_parcels
 
   - name: bulk chown
     file:
@@ -78,3 +87,5 @@
       owner: cloudera-scm
       group: cloudera-scm
       mode: '0740'
+    tags:
+      - preload_parcels

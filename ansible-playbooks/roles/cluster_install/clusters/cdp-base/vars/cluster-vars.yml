@@ -45,8 +45,13 @@ host_templates:
     - "ZOOKEEPER-1-SERVER-BASE"
     - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
   - name: HostTemplate-Worker
-    cardinality: 3
+    cardinality: "{{ groups['worker'] | length }}"
     roles:
     - "HDFS-1-DATANODE-BASE"
     - "YARN-1-NODEMANAGER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+  - name: HostTemplate-Edge
+    cardinality: 1
+    roles:
+    - "HDFS-1-HTTPFS-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"

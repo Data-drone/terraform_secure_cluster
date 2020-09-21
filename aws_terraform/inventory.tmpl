@@ -5,7 +5,10 @@ ${security-dns} ansible_host=${security-ip} # ${security-id}
 ${security-dns} ansible_host=${security-ip} # ${security-id}
 
 [manager]
-${security-dns} ansible_host=${security-ip} # ${security-id}
+${manager-dns} ansible_host=${manager-ip} # ${manager-id}
+
+[edge]
+${manager-dns} ansible_host=${manager-ip} host_template=HostTemplate-Edge # ${manager-id} 
 
 [master]
 %{ for index, dns in master-dns ~}
@@ -39,6 +42,7 @@ ${dns} ansible_host=${cdf_worker-ip[index]} host_template=HostTemplate-CDFWorker
 
 [cdp_servers:children]
 manager
+edge
 master
 worker
 cdsw_master
@@ -46,6 +50,7 @@ cdsw_worker
 cdf_master
 cdf_worker
 
+# if edge isn't shared with manager add here too
 [cluster_hosts:children]
 master
 worker
@@ -67,12 +72,7 @@ ipaserver_setup_firewalld=no
 ipaserver_auto_forwarders=no
 
 [ipaclients:children]
-master
-worker
-cdsw_master
-cdsw_worker
-cdf_master
-cdf_worker
+cdp_servers
 
 [ipaclients:vars]
 ipaadmin_password=ADMPassword1

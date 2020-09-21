@@ -1,0 +1,25 @@
+---
+- hosts: manager
+  become: yes
+
+  tasks:
+  - name: install transmission
+    yum:
+      name: transmission
+  
+  - name: get list of parcels
+    find:
+      paths: /opt/cloudera/parcel-repo/
+      patterns: '*.parcel'
+    register: parcelsFound
+
+  - name: debug parcels found
+    debug:
+      var: parcelsFound.files
+  
+  - name: build torrents
+    shell: transmission-create -s 512 -o "{{ item.path }}.torrent" "{{ item.path }}"
+    with_items:
+      - "{{ parcelsFound.files }}"
+    tags:
+      - run_command

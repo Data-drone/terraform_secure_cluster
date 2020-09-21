@@ -1,43 +1,30 @@
 # List of ToDo
 
+# IPA Config
+
 need to add line to file /etc/krb5.conf
 - renew_lifetime = 7d
 This still seems to maybe be a little glitchy and duplicates shit
 
+# Ansible glitches
 test the hostvars - kinda have it working in test
 
+# More Flexible Installs?
 Finish CM Install:
     - Multiple Clusters maybe? Stream plus normal
+    - kinda sorted with tf configs
 
+# Prewarming Images
 - Prewarm - test a cpl more times...
-  - need to rebuild and see why it sometimes doesn't index properly
+  - added torrents - see if that fixes the distribution problem
 
 ```{bash}
-
-# debug prewarm a little
-# parcel-repo checker
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m find -a "paths=/opt/cloudera/parcel-repo patterns='*' use_regex=yes" --become
-
-
-```
-
-
-```{bash}
-
-# forgot another fix
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m file -a "dest=/opt/cloudera/  content="51e05a25af52cd0efea2fc9e6811360f56cb12bb" owner=cloudera-scm group=cloudera-scm mode='0640'" --become
-
-# temp fix
-
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m copy -a "dest=/opt/cloudera/parcel-repo/CDH-7.1.3-1.cdh7.1.3.p0.4992530-el7.parcel.sha content="51e05a25af52cd0efea2fc9e6811360f56cb12bb" owner=cloudera-scm group=cloudera-scm mode='0640'" --become
 
 # restart the agent
 ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m systemd -a "name=cloudera-scm-agent state=restarted" --become
 
 # restart the server
 ansible -i aws_terraform/inventory manager --private-key ../terraforming/secrets/brian_terra_key.pem -m systemd -a "name=cloudera-scm-server state=restarted" --become
-
-
 
 ```
 

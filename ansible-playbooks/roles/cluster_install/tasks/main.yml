@@ -11,17 +11,32 @@
 # name - check if the parcel repo is empty
 # if not and 
 - name: check folder empty or not
-  file:
-    paths: /opt/cloudera/parcel-repo
-    patterns: '*parcel'
+  find:
+    paths: /opt/cloudera/parcels/
+    file_type: directory
   register: filesFound
 
+- name: debug check on folder
+  debug:
+    var: filesFound
+
 - name: check for torrents if files found
-  file:
+  find:
     paths: /opt/cloudera/parcel-repo
     patterns: '*torrent'
   register: torrentsFound
   when: filesFound.matched > 0
+
+- name: alert user that there maybe parcel weirdness
+  debug:
+    msg: "parcels present but not picked up"
+  when:
+    - torrentsFound.matched == 0 
+    - filesFound.matched > 0
+
+- name: debug the searches
+  debug:
+    var: torrentsFound
 
 - name: restart agent
   systemd:
@@ -31,13 +46,16 @@
     - cloudera-scm-agent
     - cloudera-scm-server
   when: 
-    - torrentsFound.matched = 0 
+    - torrentsFound.matched == 0 
     - filesFound.matched > 0
 
 - name: wait agents and servers to restart
   pause:
     seconds: 60 
-
+  when: 
+    - torrentsFound.matched == 0 
+    - filesFound.matched > 0
+    
 - name: Print the extracted host identifiers and names
   debug:
     var: scm_hosts

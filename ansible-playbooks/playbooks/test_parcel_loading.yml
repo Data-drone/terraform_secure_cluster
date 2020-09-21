@@ -4,16 +4,12 @@
   become: yes
 
   tasks:
-  - name: merge the main parcel in with the other component ones
-    set_fact:
-      parcel_list: "{{ scm_parcel_repositories + main_parcel }}"
-
   - name: debug merge
-    debug: var=parcel_list
+    debug: var=scm_parcel_repositories
 
   - name: get the manifest files
     include_tasks: process_parcel_repo.yml
     with_flattened: 
-      - "{{ parcel_list }}"
+      - "{{ scm_parcel_repositories }}"
     loop_control:
       loop_var: parcel_path

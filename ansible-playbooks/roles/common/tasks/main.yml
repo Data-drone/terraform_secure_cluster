@@ -13,7 +13,9 @@
   - name: set timezone to local
     shell: timedatectl set-timezone {{ timezone }}
 
-  - name: uninstall mod_ssl for ipa
+  - name: install krb5 bits
     yum:
-      name: mod_ssl
-      state: absent
+      name:
+      - krb5-workstation
+      - krb5-libs
+      state: installed
