@@ -1,0 +1,31 @@
+{
+  "items":  [{
+      "name": "AUTH_BACKEND_ORDER",
+      "value": "DB_THEN_LDAP"
+    }, {
+      "name" : "LDAP_BIND_DN",
+      "value" : "uid=cm_bind,cn=users,cn=accounts,dc=seccluster,dc=local"
+    }, {
+      "name" : "LDAP_BIND_PW",
+      "value" : "{{ ldap_bind_pass }}"
+    }, {
+      "name" : "LDAP_GROUP_SEARCH_BASE",
+      "value" : "cn=groups,cn=accounts,dc=seccluster,dc=local"
+    }, {
+      "name" : "LDAP_GROUP_SEARCH_FILTER",
+      "value" : "(member={0})"
+    }, {
+      "name" : "LDAP_TYPE",
+      "value" : "LDAP"
+    }, {
+      "name" : "LDAP_URL",
+      "value" : "{{ ldap_protocol }}{{ groups['security'][0] }}"
+    }, {
+      "name" : "LDAP_USER_SEARCH_BASE",
+      "value" : "cn=users,cn=accounts,dc=seccluster,dc=local"
+    }, {
+      "name" : "LDAP_USER_SEARCH_FILTER",
+      "value" : "(uid={0})"
+    }
+  ]  
+}

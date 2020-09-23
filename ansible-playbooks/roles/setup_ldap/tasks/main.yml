@@ -1,0 +1,37 @@
+---
+
+- include_role:
+    name: cloudera_api
+
+- name: setup the config json
+  set_fact:
+    ldap_setup: "{{ lookup('template', 'manager_conf.j2')  }}"
+
+- debug:
+    var: "{{ ldap_setup | to_nice_json }}"
+    verbosity: 1
+
+# ldaps needs the cacert thing....
+
+# curl works...
+# curl -i -v -uadmin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '@request.json' 'https://ip-10-0-1-242.ap-southeast-2.compute.internal:7183/api/v41/cm/config'
+
+- name: submit and monitor
+  uri:
+    url: "{{ cm_api_url }}/cm/config" # /cm/
+    method: PUT
+    body_format: json
+    body: "{{ ldap_setup | to_json }}"
+    status_code: 200,400
+    force_basic_auth: yes
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    follow_redirects: all
+    return_content: yes
+    validate_certs: no
+  register: ldap_resp
+
+- debug: 
+    var: ldap_resp
+    verbosity: 1
+    

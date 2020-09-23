@@ -1,0 +1,85 @@
+---
+
+- hosts: security
+  become: yes 
+
+  vars:
+    ipa_admin_user: admin
+    ipa_admin_pass: ADMPassword1 
+
+  # first lets create the ipa users
+  tasks: 
+  - name: Add cmjobuser for the service account
+    ipa_user:
+      name: cmjobuser
+      givenname: cm
+      sn: jobuser
+      state: present
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"   #"{{ hostvars['ipaservers'].ipadm_password }}"
+
+
+  - name: Add cm_admin
+    ipa_user:
+      name: cm_admin
+      givenname: cm
+      sn: admin
+      password: cmPass1
+      update_password: on_create
+      state: present
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"   #"{{ hostvars['ipaservers'].ipadm_password }}"
+
+  - name: Add cm_user
+    ipa_user:
+      name: cm_user
+      givenname: cm
+      sn: user
+      password: cmPass1
+      update_password: on_create
+      state: present
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"  #"{{ hostvars['ipaservers'].ipadm_password }}"
+  
+  - name: Add bind_user
+    ipa_user:
+      name: cm_bind
+      givenname: cm
+      sn: bind
+      password: cmBindPass1
+      update_password: on_create
+      state: present
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"  #"{{ hostvars['ipaservers'].ipadm_password }}"
+      
+
+  - name: Add my groups 
+    ipa_group:
+      name: cdp_admins
+      user:
+        - cm_admin
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"  #"{{ hostvars['ipaservers'].ipadm_password }}"
+
+  - name: Add my groups 
+    ipa_group:
+      name: cdp_users
+      user:
+        - cm_user
+      ipa_host: "{{ groups['security'][0] }}"
+      ipa_user: "{{ ipa_admin_user }}"
+      ipa_pass: "{{ ipa_admin_pass }}"  #"{{ hostvars['ipaservers'].ipadm_password }}"
+    
+- name: setup ldap
+  hosts: manager
+  roles:
+    - setup_ldap
+  vars_files:
+    - vars/cm_config.yml
+  become: yes
+      

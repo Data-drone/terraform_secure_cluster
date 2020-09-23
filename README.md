@@ -101,3 +101,24 @@ ansible -i aws_terraform/inventory manager --private-key ../terraforming/secrets
 
 
 ```
+
+-------------------
+# Debug Cluster configs
+
+```{bash}
+
+# but we need to comment out the include bit to do this
+ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup_cluster.yml --private-key ../terraforming/secrets/brian_terra_key.pem --extra-vars "@secrets/secrets.yml" --skip-tags apply_template --skip-tags management-service
+
+
+```
+
+--------------------------------
+# IPA setup-dev
+
+```{bash}
+
+ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup_ldap_demo.yml --private-key ../terraforming/secrets/brian_terra_key.pem --extra-vars "@secrets/secrets.yml" 
+
+
+```

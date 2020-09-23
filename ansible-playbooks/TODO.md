@@ -76,3 +76,13 @@ sudo /usr/java/jdk1.8.0_232-cloudera/jre/bin/keytool -import -alias seccluster.l
 # Trust this certificate? [no]:
 
 ```
+
+# using platform
+
+```{bash}
+
+# need kerberos for user
+# kinit as user
+spark-shell --principal <user> --keytab <user>.keytab
+
+```
