@@ -62,7 +62,7 @@
       "roleType": "NAMENODE",
       "configs": [
         
-        {% if hdfs_is_ha == 'true' %}
+        {% if hdfs_is_ha %}
         {
           "name": "dfs_federation_namenode_nameservice",
           "value": "nameservice1"
