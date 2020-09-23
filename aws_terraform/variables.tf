@@ -76,7 +76,7 @@ variable "volume_type" {
 
 variable "volume_size" {
     type = number
-    default = 100
+    default = 600
 }
 
 variable "master_instance" {
