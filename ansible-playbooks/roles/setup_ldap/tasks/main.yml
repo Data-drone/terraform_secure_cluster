@@ -13,14 +13,17 @@
 
 # curl works...
 # curl -i -v -uadmin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '@request.json' 'https://ip-10-0-1-242.ap-southeast-2.compute.internal:7183/api/v41/cm/config'
-
+#- name:
+#  shell: "curl -i -k -v -u{{ scm_default_user }}:{{ scm_default_pass }} -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{{ ldap_setup }}' '{{ cm_api_url }}/cm/config'"
+#  tags: test2
+# works if tls hasn't been turned out yet
 - name: submit and monitor
   uri:
     url: "{{ cm_api_url }}/cm/config" # /cm/
     method: PUT
     body_format: json
-    body: "{{ ldap_setup | to_json }}"
-    status_code: 200,400
+    body: "{{ ldap_setup }}"
+    #status_code: 200,400
     force_basic_auth: yes
     user: "{{ scm_default_user }}"
     password: "{{ scm_default_pass }}"
@@ -56,3 +59,7 @@
 - debug:
     var: ldap_url
 
+- name: restart cm
+  service:
+    name: cloudera-scm-server
+    state: restarted
