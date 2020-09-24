@@ -9,7 +9,7 @@
       - vars/database.yml
     become: yes
     tags:
-      - management_service
+      - management-service
     
   - name: setup cluster
     hosts: manager
