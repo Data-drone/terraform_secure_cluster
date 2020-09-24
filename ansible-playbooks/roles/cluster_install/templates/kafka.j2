@@ -1,0 +1,22 @@
+{
+  "refName": "KAFKA-1",
+  "serviceType": "KAFKA",
+  "serviceConfigs": [
+      {
+        "name": "zookeeper.chroot",
+        "value": "/kafka"
+      },
+      {
+        "name": "producer.metrics.enable",
+        "value": "true"
+      }
+  ],
+  "roleConfigGroups": [
+      {
+        "refName": "KAFKA-1-BROKER-BASE",
+        "roleType": "KAFKA_BROKER",
+        "configs": [],
+        "base": true
+      }
+  ]
+}

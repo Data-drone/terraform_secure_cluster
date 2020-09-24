@@ -7,55 +7,7 @@
 
 - include_role:
     name: cm_gethosts
-
-# name - check if the parcel repo is empty
-# if not and 
-- name: check folder empty or not
-  find:
-    paths: /opt/cloudera/parcels/
-    file_type: directory
-  register: filesFound
-
-- name: debug check on folder
-  debug:
-    var: filesFound
-
-- name: check for torrents if files found
-  find:
-    paths: /opt/cloudera/parcel-repo
-    patterns: '*torrent'
-  register: torrentsFound
-  when: filesFound.matched > 0
-
-- name: alert user that there maybe parcel weirdness
-  debug:
-    msg: "parcels present but not picked up"
-  when:
-    - torrentsFound.matched == 0 
-    - filesFound.matched > 0
-
-- name: debug the searches
-  debug:
-    var: torrentsFound
-
-- name: restart agent
-  systemd:
-    name: "{{ item }}"
-    state: restarted 
-  loop:
-    - cloudera-scm-agent
-    - cloudera-scm-server
-  when: 
-    - torrentsFound.matched == 0 
-    - filesFound.matched > 0
-
-- name: wait agents and servers to restart
-  pause:
-    seconds: 60 
-  when: 
-    - torrentsFound.matched == 0 
-    - filesFound.matched > 0
-    
+        
 - name: Print the extracted host identifiers and names
   debug:
     var: scm_hosts
@@ -85,7 +37,21 @@
     var: cluster_template_json
     verbosity: 1
 
+- debug: # debug hdfs ha
+    var: hdfs_is_ha
+    verbosity: 1
+
+- debug:
+    var: "{{ cluster_template_json | to_nice_json }}"
+
+#- name: debug write template
+#  local_action:
+#    module: copy
+#    content: "{{ cluster_template_json }}"
+#    dest: "tmp/template-{{ cluster_name }}.json"
+#    owner: brian
+#    group: brian
+#    mode: 777
+
 - include: apply_template.yml
 #- name: count host templates
-   
-  

@@ -6,6 +6,9 @@
       "name": "hive_metastore_database_host",
       "value": "{{ groups['database'][0] }}"
     }, {
+      "name": "atlas_service",
+      "ref": "atlas"
+    }, {
       "name": "hive_metastore_database_type",
       "value": "{{ databases.hive.type }}"
     }, {
