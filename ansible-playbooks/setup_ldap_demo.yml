@@ -89,4 +89,6 @@
   vars_files:
     - vars/cm_config.yml
   become: yes
+  tags:
+    - run_cm_command
       

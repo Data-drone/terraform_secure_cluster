@@ -35,4 +35,24 @@
 - debug: 
     var: ldap_resp
     verbosity: 1
-    
+
+- name: get the current cm_config
+  uri:
+    url: "{{ cm_api_url }}/cm/config" # /cm/
+    method: GET
+    force_basic_auth: yes
+    user: "{{ scm_default_user }}"
+    password: "{{ scm_default_pass }}"
+    follow_redirects: all
+    return_content: yes
+    validate_certs: no
+  register: cm_config
+
+- set_fact:
+    ldap_url: "{{ cm_config.json | json_query( jmespath ) }}" 
+  vars:
+    jmespath: "items[?name=='LDAP_URL'].value"
+
+- debug:
+    var: ldap_url
+
