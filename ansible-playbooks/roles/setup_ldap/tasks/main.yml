@@ -11,8 +11,6 @@
     var: "{{ ldap_setup | to_nice_json }}"
     verbosity: 1
 
-# ldaps needs the cacert thing....
-
 # curl works...
 # curl -i -v -uadmin:admin -X PUT --header 'Content-Type: application/json' --header 'Accept: application/json' -d '@request.json' 'https://ip-10-0-1-242.ap-southeast-2.compute.internal:7183/api/v41/cm/config'
 
@@ -29,6 +27,9 @@
     follow_redirects: all
     return_content: yes
     validate_certs: no
+    headers:
+      Content-Type: application/json
+      Accept: application/json
   register: ldap_resp
 
 - debug: 

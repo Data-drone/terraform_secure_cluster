@@ -19,7 +19,6 @@
       ipa_user: "{{ ipa_admin_user }}"
       ipa_pass: "{{ ipa_admin_pass }}"   #"{{ hostvars['ipaservers'].ipadm_password }}"
 
-
   - name: Add cm_admin
     ipa_user:
       name: cm_admin
@@ -75,6 +74,14 @@
       ipa_user: "{{ ipa_admin_user }}"
       ipa_pass: "{{ ipa_admin_pass }}"  #"{{ hostvars['ipaservers'].ipadm_password }}"
     
+- name: setup truststore for ipa
+  hosts: cdp_servers
+  roles:
+    - ipa_java_cacert
+  vars_files:
+    - vars/cm_config.yml
+  become: yes
+
 - name: setup ldap
   hosts: manager
   roles:
