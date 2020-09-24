@@ -1,0 +1,21 @@
+---
+
+- name: check if jsse needs to be created - create if it is
+  copy:
+    src: "{{ java_path }}/jre/lib/security/cacerts"
+    remote_src: yes
+    dest: "{{ java_path }}/jre/lib/security/jssecacerts"
+    owner: root
+    group: root
+    mode: 0644
+    force: no
+
+- name: append the /etc/ipa/cacert to jsse
+  community.general.java_cert:
+    cert_path: /etc/ipa/ca.crt
+    keystore_path: "{{ java_path }}/jre/lib/security/jssecacerts"
+    keystore_pass: changeit
+    state: present
+    cert_alias: seccluster_ipa
+    executable: "{{ java_path }}/jre/bin/keytool"
+    trust_cacert: yes
