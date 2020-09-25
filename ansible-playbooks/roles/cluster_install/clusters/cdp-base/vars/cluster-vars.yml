@@ -10,6 +10,7 @@ cluster_services:
     fs_checkpoint_dir_list: /dfs/snn
     dfs_name_dir_list: /dfs/nn
     dfs_journalnode_edits_dir: /dfs/jn
+    ranger_authorisation: false
 
   - type: spark
 

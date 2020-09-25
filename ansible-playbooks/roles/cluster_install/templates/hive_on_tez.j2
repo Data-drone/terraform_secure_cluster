@@ -12,10 +12,12 @@
     "refName": "HIVE_ON_TEZ-1",
     "serviceType": "HIVE_ON_TEZ",
     "serviceConfigs": [
+      {% if atlas_enabled %}
       {
         "name": "atlas_service",
         "ref": "atlas"
       } 
+      {% endif %}
     ],
     "roleConfigGroups": [
       {

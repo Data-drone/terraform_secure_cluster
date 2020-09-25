@@ -20,10 +20,14 @@
     }, {
       "name": "database_port",
       "value": "5432"
-    }, {
+    }, 
+    {% if atlas_enabled %}
+    {
       "name": "atlas_service",
       "ref": "atlas"
-    },{
+    },
+    {% endif %}
+    {
       "name": "oozie_service",
       "ref": "OOZIE-1"
     }, {

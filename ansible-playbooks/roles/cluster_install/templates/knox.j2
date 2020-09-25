@@ -1,0 +1,37 @@
+{
+    "refName" : "knox",
+    "serviceType" : "KNOX",
+    "serviceConfigs" : [ {
+      "name" : "ranger_service",
+      "ref" : "ranger"
+    }, {
+      "name" : "hdfs_service",
+      "ref" : "hdfs"
+    } ],
+    "roleConfigGroups" : [ {
+      "refName" : "knox-KNOX_GATEWAY-1",
+      "roleType" : "KNOX_GATEWAY",
+      "configs" : [ {
+        "name" : "gateway_dispatch_whitelist",
+        "value" : "^/.*$;^https?.*$"
+      }, {
+        "name" : "gateway_sso_authentication_provider",
+        "value" : "role=authentication#authentication.name=ShiroProvider#authentication.param.sessionTimeout=30#authentication.param.redirectToUrl=/${GATEWAY_PATH}/knoxsso/knoxauth/login.html#authentication.param.restrictedCookies=rememberme,WWW-Authenticate#authentication.param.urls./**=authcBasic#authentication.param.main.ldapRealm=org.apache.knox.gateway.shirorealm.KnoxLdapRealm#authentication.param.main.ldapContextFactory=org.apache.knox.gateway.shirorealm.KnoxLdapContextFactory#authentication.param.main.ldapRealm.contextFactory=$ldapContextFactory#authentication.param.main.ldapRealm.contextFactory.authenticationMechanism=simple#authentication.param.main.ldapRealm.contextFactory.url={{ ldap_protocol }}{{ groups['security'][0] }}#authentication.param.main.ldapRealm.contextFactory.systemUsername=uid=cm_bind,cn=users,cn=accounts,dc=seccluster,dc=local#authentication.param.main.ldapRealm.contextFactory.systemPassword=cmBindPass1#authentication.param.main.ldapRealm.userDnTemplate=uid={0},cn=users,cn=accounts,dc=seccluster,dc=local"
+      }, {
+        "name" : "gateway_knox_admin_groups",
+        "value" : "admin,cdp_admins"
+      }, {
+        "name" : "gateway_master_secret",
+        "variable" : "knox-KNOX_GATEWAY-1-gateway_master_secret"
+      } ],
+      "base" : false
+    }, {
+      "refName" : "knox-IDBROKER-1",
+      "roleType" : "IDBROKER",
+      "configs" : [ {
+        "name" : "idbroker_master_secret",
+        "variable" : "knox-IDBROKER-1-idbroker_master_secret"
+      } ],
+      "base" : false
+    } ]
+  }
