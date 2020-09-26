@@ -58,6 +58,8 @@ resource "aws_route_table_association" "sec-clus-subnet-1" {
 
 resource "aws_security_group" "sec-clus-sg" {
 
+    name = "sec-clus-sg"
+    description = "sec-cluster-terraform-sg"
     vpc_id = aws_vpc.mainvpc.id
 
     egress {
