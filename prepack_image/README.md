@@ -1,4 +1,4 @@
-# TODO
+# Packer Create Prewarmed Image
 
 Create a prepack packer image in order to minimise the amount of time spent installing stuff
 
@@ -15,23 +15,10 @@ packer build --var-file="../secrets/packer_vars.json" create_prewarmed_image.jso
 
 ```
 
-## Temp Ansible Fix
+## ToDos
 
-Temp fix for the symlink and the dont_delete and chowning
-
-```{bash}
-
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m file -a "src=/opt/cloudera/parcels/CDH-7.1.3-1.cdh7.1.3.p0.4992530 dest=/opt/cloudera/parcels/CDH state=link" --become
-
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m file -a "path=/opt/cloudera/parcels/CDH/.dont_delete state=touch owner=cloudera-scm group=cloudera-scm" --become
-
-
-# bulk chown
-ansible -i aws_terraform/inventory all --private-key ../terraforming/secrets/brian_terra_key.pem -m file -a "path=/opt/cloudera/ state=directory recurse=yes owner=cloudera-scm group=cloudera-scm mode='0755'" --become
-
-
-```
-
-- sha from manifest and json parse
-- torrent is created by cm
-That is what is produced by a normal dload and distribute
+Currently with prepacked image impala doesn't start up correcting
+- theories
+  - Java path issue?
+    - correct should the /usr/java/default/jre perhaps.
+    
