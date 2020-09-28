@@ -34,10 +34,14 @@ scm_default_pass: admin
 kdc_admin: admin
 kdc_enc: aes256-cts
 
-cluster_def: cdp-warehouse-governance
+cluster_def: cdp-singlenode-governance
 
 # ldap setup
 ldap_protocol: ldaps://
 ldap_bind_pass: cmBindPass1
+
+# knox setup
+knox_master_secret: knoxMasterSecret
+idbroker_master_secret: idBrokerMasterSecret
 
 scm_license_file: ../../../../secrets/bl_demo_2020_2021_cloudera_license.txt

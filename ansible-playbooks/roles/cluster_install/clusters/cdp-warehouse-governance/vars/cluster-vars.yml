@@ -3,6 +3,7 @@ cluster_name: cdp-warehouse-governance
 
 hdfs_is_ha: yes
 atlas_enabled: true
+ranger_enabled: true
 
 cluster_services:
 
@@ -18,7 +19,6 @@ cluster_services:
     fs_checkpoint_dir_list: /dfs/snn
     dfs_name_dir_list: /dfs/nn
     dfs_journalnode_edits_dir: /dfs/jn
-    ranger_authorisation: true
 
   - type: hive
 
@@ -109,8 +109,9 @@ host_templates:
     - "HUE-1-HUE_SERVER-BASE"
     - "HUE-1-HUE_LOAD_BALANCER-BASE"
     - "HUE-1-KT_RENEWER-BASE"
-    - "knox-KNOX_GATEWAY-1"
-    - "knox-IDBROKER-1"
+    - "KNOX-1-KNOX_GATEWAY-BASE"
+    - "KNOX-1-IDBROKER-BASE"
+    - "KNOX-1-GATEWAY-BASE"
     - "OOZIE-1-OOZIE_SERVER-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"
     - "HIVE-1-GATEWAY-BASE"

@@ -3,6 +3,7 @@ cluster_name: cdp-singlenode-governance
 
 hdfs_is_ha: false
 atlas_enabled: true
+ranger_enabled: true
 
 cluster_services:
 
@@ -18,7 +19,6 @@ cluster_services:
     fs_checkpoint_dir_list: /dfs/snn
     dfs_name_dir_list: /dfs/nn
     dfs_journalnode_edits_dir: /dfs/jn
-    ranger_authorisation: true
 
   - type: hive
 

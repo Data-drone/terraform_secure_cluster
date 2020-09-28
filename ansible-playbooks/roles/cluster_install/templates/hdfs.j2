@@ -23,10 +23,13 @@
     }, {
       "name" : "hadoop_authorized_groups",
       "value" : "hive"
-    }, {
-      "name" : "enable_ranger_authorization",
-      "variable": "RANGER_AUTHORISATION"
     }
+    {% if ranger_enabled %}
+    , {
+      "name" : "enable_ranger_authorization",
+      "value": "true"
+    }
+    {% endif %}
   ],
   "roleConfigGroups": [
     {

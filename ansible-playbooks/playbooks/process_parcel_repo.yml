@@ -20,7 +20,7 @@
     dest: "/opt/cloudera/parcel-repo/{{ item.parcelName }}.sha"
     owner: cloudera-scm
     group: cloudera-scm
-    mode: '0740'
+    mode: '0640'
   with_items: "{{ parcel_manifest.parcels }}"
   when: item.parcelName.endswith('el7.parcel')
 
@@ -50,18 +50,25 @@
     dest: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
     owner: cloudera-scm
     group: cloudera-scm
-    mode: '0740'
+    mode: '0640'
 
 - name: build torrent for parcel
   shell: transmission-create -s 512 -o "/opt/cloudera/parcel-repo/{{ parcel_name }}.torrent" "/opt/cloudera/parcel-repo/{{ parcel_name }}"
   
+- name: chown torrent
+  file:
+    path: /opt/cloudera/parcel-repo/{{ parcel_name }}.torrent
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0640'
+
 - name: extract parcels
   unarchive:
     src: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
     dest: /opt/cloudera/parcels/
     owner: cloudera-scm
     group: cloudera-scm
-    mode: '0740'
+    mode: '2755'
     remote_src: yes
   register: archive_contents
 
@@ -76,7 +83,7 @@
     dest: "/opt/cloudera/parcels/{{ product_name }}"
     owner: cloudera-scm
     group: cloudera-scm
-    mode: '0740'
+    mode: '0777'
     state: link
   
 - name: create don't delete
