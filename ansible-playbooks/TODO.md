@@ -77,6 +77,14 @@ sudo /usr/java/jdk1.8.0_232-cloudera/jre/bin/keytool -import -alias seccluster.l
 
 ```
 
+# disable keyring cache
+
+```{bash}
+
+ansible -i aws_terraform/inventory manager --private-key ../terraforming/secrets/brian_terra_key.pem -m lineinfile -a "path='/etc/krb5.conf' create=false regexp='^ default_ccache_name*' line=' default_ccache_name = /tmp/krb5cc_%{uid}'"
+
+```
+
 # using platform
 
 ```{bash}
