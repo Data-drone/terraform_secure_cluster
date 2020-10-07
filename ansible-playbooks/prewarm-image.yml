@@ -44,7 +44,7 @@
       state: directory
       owner: cloudera-scm
       group: cloudera-scm
-      mode: '0740'
+      mode: '0755'
     loop:
       - "/opt/cloudera/csd"
       - "/opt/cloudera/parcel-repo"
@@ -78,14 +78,28 @@
       loop_var: parcel_path
     tags:
       - preload_parcels
-
-  - name: bulk chown
-    file:
-      path: /opt/cloudera
-      state: directory
-      recurse: yes
-      owner: cloudera-scm
-      group: cloudera-scm
-      mode: '0740'
-    tags:
-      - preload_parcels
+# CDH 2755
+# link 0777
+  #- name: chown parcels
+  ##  file:
+   #   path: /opt/cloudera/parcels
+   #   state: directory
+   #   recurse: yes
+   #   owner: cloudera-scm
+   #   group: cloudera-scm
+   #   mode: '0755'
+   # tags:
+   #   - preload_parcels
+# folder 755
+# contents 640  
+  #- name: chown parcel-repo
+  #  file:
+  #    path: /opt/cloudera/parcel-repo
+  #    state: directory
+  #    recurse: yes
+  #    owner: cloudera-scm
+  #    group: cloudera-scm
+  #    mode: '0755'
+  #  tags:
+  #    - preload_parcels
+  
