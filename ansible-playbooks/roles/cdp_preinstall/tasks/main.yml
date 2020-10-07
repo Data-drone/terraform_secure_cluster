@@ -48,8 +48,16 @@
 - name: Fix IPA kerberos settings
   lineinfile:
     path: /etc/krb5.conf
-    regexp: '^  renew_lifetime*'
-    insertbefore: '^  forwardable'
+    regexp: '^\s*renew_lifetime*'
+    insertbefore: '^\s*forwardable'
     state: present
     line: '  renew_lifetime = 7d'
   when: stat_result.stat.exists
+
+- name: Fix the kerberos keyring
+  lineinfile:
+    path: /etc/krb5.conf
+    create: false
+    regexp: '^\s*default_ccache_name*'
+    line: ' default_ccache_name = /tmp/krb5cc_%{uid}'
+
