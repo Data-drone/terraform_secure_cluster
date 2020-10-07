@@ -24,9 +24,13 @@
         "instance_type": "m5a.xlarge",
         "ssh_username": "centos",
         "ami_name": "blaw_secure_cluster {{timestamp}}",
-        "run_volume_tags": {
-          "owner": "{{ owner }}",
-          "enddate": "{{ enddate }}"
+        "run_tags": {
+          "owner": "{{ user `owner` }}",
+          "enddate": "{{ user `enddate` }}"
+        },
+        "tags": {
+          "owner": "{{ user `owner` }}",
+          "instance": "{{ user `instance` }}"
         },
         "launch_block_device_mappings": [{
             "device_name": "/dev/sda1",
