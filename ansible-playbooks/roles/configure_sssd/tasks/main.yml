@@ -1,0 +1,14 @@
+---
+
+- name: Set ignore group members  
+  ini_file:
+    section: '{{ item.section }}'
+    option: '{{ item.option }}'
+    value: '{{ item.value }}'
+    path: /etc/sssd/sssd.conf
+  loop: '{{ sssd_tunables }}'
+
+- name: reset sssd
+  service:
+    name: sssd
+    state: restarted

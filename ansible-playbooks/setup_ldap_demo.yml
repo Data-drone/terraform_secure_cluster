@@ -91,4 +91,49 @@
   become: yes
   tags:
     - run_cm_command
-      
+
+- name: setup sssd
+  hosts: cdp_servers
+  roles: 
+    - configure_sssd
+  vars:
+    sssd_tunables:
+      - section: sssd
+        option: services
+        value: nss, pam, ssh, autofs, pac
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ignore_group_members
+        value: 'true'
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_schema
+        value: ipa
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_id_mapping
+        value: 'true'
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_access_order
+        value: expire  
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_account_expire_policy
+        value: ipa  
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_force_upper_case_realm
+        value: 'true'  
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: case_sensitive
+        value: 'false'  
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: fallback_homedir
+        value: /home/%d/%u
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: default_shell
+        value: /bin/false  
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: ldap_referrals
+        value: 'false'
+      - section: 'domain/{{ ipaserver_domain }}'
+        option: enumerate
+        value: 'true'      
+  become: yes
+  tags:
+    - update_sssd
