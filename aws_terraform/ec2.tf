@@ -24,6 +24,10 @@ resource "aws_instance"  "security"  {
 resource "aws_instance"  "manager"  {
     ami = var.ami
     instance_type = "m5a.2xlarge"
+    # Putting this here as this is where Hue is 
+    # this role is needed for hue to pick aws
+    # all my templates put edge with manager for now
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     root_block_device {
