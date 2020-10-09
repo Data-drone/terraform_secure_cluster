@@ -4,6 +4,7 @@ cluster_name: cdp-singlenode-governance
 hdfs_is_ha: false
 atlas_enabled: true
 ranger_enabled: true
+knox_enabled: true
 
 cluster_services:
 

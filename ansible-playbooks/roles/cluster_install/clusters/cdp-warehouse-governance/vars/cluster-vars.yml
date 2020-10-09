@@ -4,6 +4,7 @@ cluster_name: cdp-warehouse-governance
 hdfs_is_ha: yes
 atlas_enabled: true
 ranger_enabled: true
+knox_enabled: true
 
 cluster_services:
 

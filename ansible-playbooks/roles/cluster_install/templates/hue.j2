@@ -43,12 +43,25 @@
       "name": "zookeeper_service",
       "ref": "ZOOKEEPER-1"
     }
+    {% if knox_enabled %}
+    , {
+      "name": "auth_backend",
+      "value": "desktop.auth.backend.PamBackend,desktop.auth.backend.AllowFirstUserDjangoBackend"
+    }
+    {% endif %}
   ],
   "roleConfigGroups": [
     {
       "refName": "HUE-1-HUE_SERVER-BASE",
       "roleType": "HUE_SERVER",
-      "configs": [],
+      "configs": [
+        {% if aws %}
+        {
+          "name": "hue_server_hue_safety_valve",
+          "value": "[aws]\nhas_iam_detection=true\n\n[[aws_accounts]]\n[[[default]]]\nregion=ap-southeast-2"
+        }
+        {% endif %}
+      ],
       "base": true
     }, {
       "refName": "HUE-1-HUE_LOAD_BALANCER-BASE",
