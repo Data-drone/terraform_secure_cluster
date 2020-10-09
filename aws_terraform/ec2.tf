@@ -51,6 +51,7 @@ resource "aws_instance"  "manager"  {
 resource "aws_instance"  "master"  {
     ami = var.ami
     instance_type = var.master_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.master_count
@@ -76,6 +77,7 @@ resource "aws_instance"  "master"  {
 resource "aws_instance"  "node"  {
     ami = var.ami
     instance_type = var.worker_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.new_node_count
@@ -102,6 +104,7 @@ resource "aws_instance"  "node"  {
 resource "aws_instance"  "cdsw_master"  {
     ami = var.ami
     instance_type = var.cdsw_master_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.cdsw_master
@@ -127,6 +130,7 @@ resource "aws_instance"  "cdsw_master"  {
 resource "aws_instance"  "cdsw_node"  {
     ami = var.ami
     instance_type = var.cdsw_worker_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.cdsw_node
@@ -152,6 +156,7 @@ resource "aws_instance"  "cdsw_node"  {
 resource "aws_instance"  "cdf_master"  {
     ami = var.ami
     instance_type = var.cdf_master_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.cdf_master
@@ -177,6 +182,7 @@ resource "aws_instance"  "cdf_master"  {
 resource "aws_instance"  "cdf_worker"  {
     ami = var.ami
     instance_type = var.cdf_worker_instance
+    iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
 
     count = var.cdf_node
