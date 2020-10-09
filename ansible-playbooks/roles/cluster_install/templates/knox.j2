@@ -30,7 +30,9 @@
           } 
         ],
         "base" : true
-      }, {
+      } 
+      {% if idbroker %}
+      , {
         "refName" : "KNOX-1-IDBROKER-BASE",
         "roleType" : "IDBROKER",
         "configs" : [ 
@@ -40,7 +42,9 @@
           } 
         ],
         "base" : true
-      }, {
+      }
+      {% endif %}
+      , {
         "refName" : "KNOX-1-GATEWAY-BASE",
         "roleType" : "GATEWAY",
         "base" : true,
