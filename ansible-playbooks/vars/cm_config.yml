@@ -1,10 +1,14 @@
 cluster_cm_version: 7.1.3
+cluster_def: cdp-warehouse-governance
+
+# cloud flags
+aws: true
 
 # switch to openjdk lets see if this fixes impala?
-# setting java_home = /usr/java/jdk1.8.0_232-cloudera/jre fixes impala
 java_repo: java-1.8.0-openjdk-devel
 java_type: openjdk # cldr_java 
-java_path: /usr/lib/jvm #java_path: /usr/java/jdk1.8.0_232-cloudera 
+java_path: /usr/lib/jvm 
+#java_path: /usr/java/jdk1.8.0_232-cloudera 
 #cldr_java_repo: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/RPMS/x86_64/openjdk8-8.0+232_9-cloudera.x86_64.rpm"
 
 scm_repo_url: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ cluster_cm_version }}/redhat7/yum/"
@@ -35,8 +39,6 @@ scm_default_pass: admin
 
 kdc_admin: admin
 kdc_enc: aes256-cts
-
-cluster_def: cdp-singlenode-governance
 
 # ldap setup
 ldap_protocol: ldaps://
