@@ -137,3 +137,13 @@
   become: yes
   tags:
     - update_sssd
+
+- hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+  - name: cleanup tmp/certs
+    file:
+      path: tmp/certs
+      state: absent
+    
