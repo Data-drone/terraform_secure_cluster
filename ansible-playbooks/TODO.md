@@ -17,6 +17,9 @@ Finish CM Install:
 # Prewarming Images
 - Prewarm - test a cpl more times...
   - added torrents - see if that fixes the distribution problem
+  - still issues with prewarming need to find the secret sauce
+
+  - need clean up cloudera-scm-agent and uuid especially if we are building on the base like with the GPU images
 
 ```{bash}
 
@@ -29,7 +32,7 @@ ansible -i aws_terraform/inventory manager --private-key ../terraforming/secrets
 ```
 
 
-# using platform
+# using platform tools
 
 ```{bash}
 
@@ -41,17 +44,19 @@ spark-shell --principal <user> --keytab <user>.keytab
 
 Try setting SSSD and NSCD first before looking at individual usersync
 - sssd now mostly works...
-- Hue LDAP? - nah lets flick it to Knox to solve
 - Ranger LDAP? - still a gap with groups
 
 
 Spark Jobs Issues:
 - needed to pass keytab to spark
 - user needed higher permissions to access hive tables
-- needed user idbroker mapping
+- needed user idbroker mapping - dropped IDBroker for now since it isn't supported anyway
+  - technical issue is that Spark was delegating down the token properly so idbroker didn't see a valid kerberos token to map to a valid role
 
-- stuck on kinit for spark it seems?
-  - took out IDBroker and just used node IAM roles
-  - maybe there is a way to get this to work but????
+
+## Add a jump box
+
+- Create a terraform / ansible / packer box?
 
 ## Credentials Config
+  

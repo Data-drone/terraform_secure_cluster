@@ -34,6 +34,11 @@ ansible-playbooks/setup_cluster.yml
 - this:
   - deploys the cluster_def in your cm_config
 
+ansible-playbooks/setup_ldap_demo.yml
+- this:
+  - configures the ldap settings back to FreeIPA (could still be some app coverage gaps)
+
+
 ansible-playbooks/setup_autotls.yml
 - this:
   - configures and sets up autotls
@@ -49,6 +54,16 @@ Hopefully Happy times after this!
 
 ## Testing Code
 
+Setting up infra
+Run from aws_terraform folder
+
+```{bash}
+
+terraform apply -var-file="../secrets/<yourfile>.tfvars"
+
+```
+
+NOTE: Wait for all the instances to have passed all status checks first.
 Run from root folder
 
 ```{bash}
@@ -122,3 +137,9 @@ ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup_ldap_demo.ym
 
 
 ```
+
+# Things that I have to keep redoing each time
+
+Governance:
+- Ranger Permissions can be incorrect
+  - assign cm_admin user from ldap setup to be a HDFS superuser in ranger
