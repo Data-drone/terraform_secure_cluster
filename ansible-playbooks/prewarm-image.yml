@@ -78,28 +78,9 @@
       loop_var: parcel_path
     tags:
       - preload_parcels
-# CDH 2755
-# link 0777
-  #- name: chown parcels
-  ##  file:
-   #   path: /opt/cloudera/parcels
-   #   state: directory
-   #   recurse: yes
-   #   owner: cloudera-scm
-   #   group: cloudera-scm
-   #   mode: '0755'
-   # tags:
-   #   - preload_parcels
-# folder 755
-# contents 640  
-  #- name: chown parcel-repo
-  #  file:
-  #    path: /opt/cloudera/parcel-repo
-  #    state: directory
-  #    recurse: yes
-  #    owner: cloudera-scm
-  #    group: cloudera-scm
-  #    mode: '0755'
-  #  tags:
-  #    - preload_parcels
   
+  - name: disable cloudera-scm-agent and manager to prevent it from starting up and doing things
+    systemd:
+      name: cloudera-scm-agent
+      state: stopped
+      enabled: no     - 

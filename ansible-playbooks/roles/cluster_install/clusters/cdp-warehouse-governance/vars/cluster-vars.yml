@@ -5,6 +5,7 @@ hdfs_is_ha: yes
 atlas_enabled: true
 ranger_enabled: true
 knox_enabled: true
+idbroker: false
 
 cluster_services:
 
