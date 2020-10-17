@@ -17,14 +17,14 @@ scm_repo_gpgkey: "https://{{ cloudera_key }}@archive.cloudera.com/p/cm7/{{ clust
 scm_csds:
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/2.x/redhat7/yum/tars/parcel/NIFI-1.11.4.2.0.4.0-80.jar"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/2.x/redhat7/yum/tars/parcel/NIFIREGISTRY-0.6.0.2.0.4.0-80.jar"
-  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/csd/CLOUDERA_DATA_SCIENCE_WORKBENCH-CDPDC-1.8.0.jar"
+  #- "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw/1.8.0/csd/CLOUDERA_DATA_SCIENCE_WORKBENCH-CDPDC-1.8.0.jar"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/csa/1.2.0.0/csd/FLINK-1.10.0-csa1.2.0.0-cdh7.1.1.0-565-3525501.jar"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/csd/LIVY_FOR_SPARK3-0.6.0.3.0.7110.0-81.jar"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/csd/SPARK3_ON_YARN-3.0.1.3.0.7110.0-81.jar"
   
 scm_parcel_repositories:
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/CFM/2.x/redhat7/yum/tars/parcel/"
-  - "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/parcels/"
+  #- "https://{{ cloudera_key }}@archive.cloudera.com/p/cdsw1/1.8.0/parcels/"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/csa/1.2.0.0/parcels/"
   - "https://{{ cloudera_key }}@archive.cloudera.com/p/spark3/3.0.7110.0/parcels/"
   - "https://repo.anaconda.com/pkgs/misc/parcels"

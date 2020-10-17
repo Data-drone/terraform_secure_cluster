@@ -1,14 +1,5 @@
 # List of ToDo
 
-# IPA Config
-
-need to add line to file /etc/krb5.conf
-- renew_lifetime = 7d
-This still seems to maybe be a little glitchy and duplicates shit
-
-# Ansible glitches
-test the hostvars - kinda have it working in test
-
 # More Flexible Installs?
 Finish CM Install:
     - Multiple Clusters maybe? Stream plus normal
@@ -16,10 +7,9 @@ Finish CM Install:
 
 # Prewarming Images
 - Prewarm - test a cpl more times...
-  - added torrents - see if that fixes the distribution problem
   - still issues with prewarming need to find the secret sauce
 
-  - need clean up cloudera-scm-agent and uuid especially if we are building on the base like with the GPU images
+  - need clean up cloudera-scm-agent and uuid especially if we are building on the base like with the GPU images - added v1
 
 ```{bash}
 
