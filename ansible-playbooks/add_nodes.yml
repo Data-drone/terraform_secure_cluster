@@ -52,4 +52,4 @@
     vars_files:
       - vars/cm_config.yml
       - vars/database.yml
-    become: ye
+    become: yes
