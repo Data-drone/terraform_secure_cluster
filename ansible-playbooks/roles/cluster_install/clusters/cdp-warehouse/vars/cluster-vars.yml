@@ -1,8 +1,11 @@
-cluster_version: 7.1.3
+cluster_version: 7.1.4
 cluster_name: cdp-warehouse
 
 hdfs_is_ha: yes
 atlas_enabled: false
+ranger_enabled: false
+knox_enabled: false
+idbroker: false
 
 cluster_services:
 

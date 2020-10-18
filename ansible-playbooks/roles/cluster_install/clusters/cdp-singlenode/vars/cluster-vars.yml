@@ -1,7 +1,11 @@
-cluster_version: 7.1.3
+cluster_version: 7.1.4
 cluster_name: cdp-singlenode
 
 hdfs_is_ha: false
+atlas_enabled: false
+ranger_enabled: false
+knox_enabled: true
+idbroker: false
 
 cluster_services:
 
