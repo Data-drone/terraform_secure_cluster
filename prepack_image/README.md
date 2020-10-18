@@ -1,13 +1,15 @@
 # Packer Create Prewarmed Image
 
+NOTE: Setting prewarm to true is BETA
+
 Create a prepack packer image in order to minimise the amount of time spent downloading and distributing parcels
 
 ## Tools
 
-Packer
-Ansible Playbooks from the playbooks folder
+- Packer
+- Ansible Playbooks from the playbooks folder
 
-## Testing
+## Running the code
 
 ```bash
 
@@ -15,17 +17,22 @@ packer build --var-file="../secrets/packer_vars.json" create_prewarmed_image.jso
 
 ```
 
-## ToDos
+This will build out an image for launching CDP Clusters off of.
+CSDs for most of cloudera's suite of tools is automatically setup
+
+## ToDos - Fix the Prewarming
+
+Prewarming parcels will speed up the deployment of nodes / clusters as the download / distribute and activation of parcels is sped up
+
+Currently with prewarmed parcels, cloudera-scm-manager needs to be restarted a few times so that it acknowledges that the parcels have been predownloaded. The only way way to see if this is done is to `grep` for `Discovered` INFO lines in the `cloudera-scm-server.log` file on the cloudera manager host
 
 Currently with prepacked image impala doesn't start up correcting
-- theories
   - Java path issue?
     - correct should the /usr/java/default/jre perhaps.
     - still blocked need to let CM deploy the parcel and compare results
 
-## test stopping the parcel management in CM
 
-when prewarming images, it still seems to require waiting on CM to validate and accept a package before it will be detected.
+### Things to try to fix prewarm
 
 To speed this up, we can set this flag I think
 

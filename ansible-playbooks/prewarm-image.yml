@@ -52,6 +52,7 @@
       - "/opt/cloudera/parcel-cache"
     tags:
       - preload_parcels
+    when: load_parcels == "true"
 
   - name: Download CSDs
     get_url:
@@ -62,6 +63,7 @@
     when: scm_csds is defined
     tags:
       - preload_parcels
+    when: load_parcels == "true"
 
   - name: install transmission
     yum:
@@ -69,7 +71,8 @@
       state: present
     tags:
       - preload_parcels
-
+    when: load_parcels == "true"
+  
   - name: get the manifest files
     include_tasks: playbooks/process_parcel_repo.yml
     with_flattened: 
@@ -78,9 +81,10 @@
       loop_var: parcel_path
     tags:
       - preload_parcels
-  
+    when: load_parcels == "true"
+
   - name: disable cloudera-scm-agent and manager to prevent it from starting up and doing things
     systemd:
       name: cloudera-scm-agent
       state: stopped
-      enabled: no     - 
+      enabled: no
