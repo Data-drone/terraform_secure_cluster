@@ -24,6 +24,11 @@
       var: cm_api_url
       verbosity: 1
 
+  - name: debug cms config
+    debug:
+      var: cms_config_json
+      verbosity: 1
+
   # https://cloudera.github.io/cm_api/apidocs/v12/path__cm_service.html#PUT
   - name: Setup the Cloudera Management Services (CMS)
     uri:

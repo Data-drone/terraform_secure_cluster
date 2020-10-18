@@ -20,6 +20,8 @@ ${dns} ansible_host=${master-ip[index]} host_template=HostTemplate-Master${index
 ${dns} ansible_host=${node-ip[index]} host_template=HostTemplate-Worker # ${node-id[index]}
 %{ endfor ~}
 
+[extra_worker]
+
 [cdsw_master]
 %{ for index, dns in cdsw_master-dns ~}
 ${dns} ansible_host=${cdsw_master-ip[index]} host_template=HostTemplate-CDSWMaster${index+1} # ${cdsw_master-id[index]} 
@@ -45,6 +47,7 @@ manager
 edge
 master
 worker
+extra_worker
 cdsw_master
 cdsw_worker
 cdf_master
@@ -54,6 +57,7 @@ cdf_worker
 [cluster_hosts:children]
 master
 worker
+extra_worker
 cdsw_master
 cdsw_worker
 cdf_master

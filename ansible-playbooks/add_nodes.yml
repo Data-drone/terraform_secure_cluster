@@ -1,0 +1,55 @@
+---
+      
+  - name: setup freeipa server
+    hosts: extra_worker
+    collections:
+      - freeipa.ansible_freeipa
+    roles:
+      - role: ipaclient
+        state: present
+    vars:
+      - ansible_python_interpreter: "/usr/bin/python2.7"    
+    become: yes
+  
+  - name: add epel dependency
+    hosts: extra_worker
+    roles:
+      - epel
+    become: yes
+  
+  - name: add cloudera repo
+    hosts: extra_worker
+    roles:
+      - cm-repo
+    vars_files:
+      - vars/cm_config.yml
+    become: yes
+    
+  - name: add java
+    hosts: extra_worker
+    roles:
+      - java
+    vars_files:
+      - vars/cm_config.yml  
+    become: yes
+  
+  - name: add db_access
+    hosts: extra_worker
+    roles:
+      - db_driver
+    become: yes
+  
+  - name: run prereqs
+    hosts: extra_worker
+    roles:
+      - cdp_preinstall
+    become: yes
+  
+  - name: setup scm-agents
+    hosts: extra_worker
+    roles:
+      - scm_agents
+    vars_files:
+      - vars/cm_config.yml
+      - vars/database.yml
+    become: ye
