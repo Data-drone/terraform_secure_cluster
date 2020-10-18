@@ -26,9 +26,17 @@
 - set_fact:
     scm_product_list: "{{ manifests.results | map(attribute='json') | list | json_query('[*].parcels[*].parcelName') | list | sum(start=[]) }}"
 
+- debug:
+    var: scm_product_list
+    verbosity: 1
+
 - set_fact:
-    scm_products: "{{ scm_product_list | map('regex_replace', '-[a-z0-9]+.parcel$','') | list | unique  }}"  
-    
+    scm_products: "{{ scm_product_list | map('regex_replace', '-[a-z0-9]+.parcel$','') | map('regex_replace', '-[a-z0-9]+.ppc64le.parcel$','') | list | unique  }}"  
+
+- debug:
+    var: scm_products
+    verbosity: 1    
+
 - name: generate host config
   set_fact: 
     cluster_template_json: "{{ lookup('template', 'base.j2', convert_date=False) }}"
