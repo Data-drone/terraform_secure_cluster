@@ -9,6 +9,13 @@ Finish CM Install:
 - Prewarm - test a cpl more times...
   - still issues with prewarming need to find the secret sauce
 
+  - theories in test
+    - something to do with `tar zxf` vs `unarchive` in ansible
+      - testing redistributed and activating on prewarmed image by deleting predistributed version
+        - letting CM `tar zxf` and link seems to work....
+    - java differences
+    - env flags 
+
   - need clean up cloudera-scm-agent and uuid especially if we are building on the base like with the GPU images - added v1
 
 ```{bash}

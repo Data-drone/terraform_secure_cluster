@@ -62,19 +62,30 @@
     group: cloudera-scm
     mode: '0640'
 
-- name: extract parcels
-  unarchive:
-    src: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
-    dest: /opt/cloudera/parcels/
+- name: extract parcels tar zxf
+  shell: tar zxf "/opt/cloudera/parcel-repo/{{ parcel_name }}" -C "/opt/cloudera/parcels"
+
+- name: change ownership
+  file: 
+    dest: "/opt/cloudera/parcels/{{ extract_folder }}"
     owner: cloudera-scm
     group: cloudera-scm
     mode: '2755'
-    remote_src: yes
-  register: archive_contents
+    recurse: yes
 
-- name: debug the parcel contents
-  debug: 
-    var: archive_contents 
+#- name: extract parcels
+#  unarchive:
+#    src: "/opt/cloudera/parcel-repo/{{ parcel_name }}"
+#    dest: /opt/cloudera/parcels/
+#    owner: cloudera-scm
+#    group: cloudera-scm
+#    mode: '2755'
+#    remote_src: yes
+#  register: archive_contents
+
+#- name: debug the parcel contents
+#  debug: 
+#    var: archive_contents 
 
 # need to get just the parcel name with .parcel
 - name: symlink the parcel dir
