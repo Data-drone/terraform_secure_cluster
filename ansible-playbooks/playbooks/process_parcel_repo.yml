@@ -65,13 +65,13 @@
 - name: extract parcels tar zxf
   shell: tar zxf "/opt/cloudera/parcel-repo/{{ parcel_name }}" -C "/opt/cloudera/parcels"
 
-- name: change ownership
-  file: 
-    dest: "/opt/cloudera/parcels/{{ extract_folder }}"
-    owner: cloudera-scm
-    group: cloudera-scm
-    mode: '2755'
-    recurse: yes
+#- name: change ownership
+#  file: 
+#    dest: "/opt/cloudera/parcels/{{ extract_folder }}"
+#    owner: 1001
+#    group: users
+#    mode: 'u=rwx,g=rx+s,o=rx'
+#    recurse: yes
 
 #- name: extract parcels
 #  unarchive:
@@ -92,9 +92,9 @@
   file:
     src: "/opt/cloudera/parcels/{{ extract_folder }}"
     dest: "/opt/cloudera/parcels/{{ product_name }}"
-    owner: cloudera-scm
-    group: cloudera-scm
-    mode: '0777'
+    #owner: cloudera-scm
+    #group: cloudera-scm
+    #mode: '0777'
     state: link
   
 - name: create don't delete
