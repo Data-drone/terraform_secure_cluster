@@ -1,0 +1,22 @@
+---
+- hosts: cdp_servers
+  become: yes
+  #var_files:
+  #  - vars/cm_config.yml
+  tasks:
+    
+  - name: get the list of ,parcel files in the parcel repo folder
+    #debug: msg={{ lookup('fileglob', '/opt/cloudera/parcel-repo/*.parcel') }}
+    find:
+      paths: /opt/cloudera/parcel-repo
+      patterns: '*.parcel'
+    register: find_result
+
+  - name: for each one in this list add a file that has .skiphash added to the end
+    file:
+      path: '{{ item }}.skiphash'
+      state: touch
+      owner: cloudera-scm
+      group: cloudera-scm
+      mode: '0640'
+    with_items: "{{ find_result.files | map(attribute='path') | list }}"

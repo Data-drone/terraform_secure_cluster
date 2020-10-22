@@ -62,6 +62,14 @@
     group: cloudera-scm
     mode: '0640'
 
+- name: create the skiphash
+  file:
+    path: /opt/cloudera/parcel-repo/{{ parcel_name }}.skiphash
+    state: touch
+    owner: cloudera-scm
+    group: cloudera-scm
+    mode: '0740'
+
 - name: extract parcels tar zxf
   shell: tar zxf "/opt/cloudera/parcel-repo/{{ parcel_name }}" -C "/opt/cloudera/parcels"
 
