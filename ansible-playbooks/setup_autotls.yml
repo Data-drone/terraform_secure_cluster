@@ -17,6 +17,11 @@
     args:
       creates: /opt/certs/ipa-{{ inventory_hostname }}.crt
 
+  - name: wait 5 secs in case it is taking a while
+    wait_for:  
+      timeout: 5
+    delegate_to: localhost
+
   - name: fetch the crt to the ansible master
     fetch:
       src: /opt/certs/ipa-{{ inventory_hostname }}.crt
