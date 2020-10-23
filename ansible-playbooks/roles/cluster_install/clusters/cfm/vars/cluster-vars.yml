@@ -1,22 +1,71 @@
-cluster_version: 7.1.3
-cluster_name: cdp-cfm
+cluster_version: 7.1.4
+cluster_name: cfm
 
 hdfs_is_ha: false
+atlas_enabled: false
+ranger_enabled: false
+knox_enabled: false
+idbroker: false
 
 cluster_services:
+
+  - type: atlas
+  
+  - type: hbase
+
+  - type: hdfs
+    dfs_data_dir_list: /dfs/dn
+    fs_checkpoint_dir_list: /dfs/snn
+    dfs_name_dir_list: /dfs/nn
+    dfs_journalnode_edits_dir: /dfs/jn
+  
+  - type: kafka
+
+  - type: knox
+    gateway_secret: knoxPass1
+    idbroker_secret: idbrokerPass1
+
+  - type: ranger
+    ranger_pass: rangerPass1
+
+  - type: solr
 
   - type: nifi
 
   - type: nifiregistry
 
+  - type: zookeeper
+
 host_templates:
   - name: HostTemplate-Master1
     cardinality: 1
     roles:
+    - "atlas-ATLAS_SERVER-BASE"
     - "NIFIREGISTRY-1-NIFI_REGISTRY_SERVER-BASE"
     - "ZOOKEEPER-1-SERVER-BASE"
+    - "HDFS-1-BALANCER-BASE"
+    - "HDFS-1-DATANODE-BASE"
+    - "HDFS-1-NAMENODE-BASE"
+    - "HDFS-1-SECONDARYNAMENODE-BASE"
+    - "HBASE-1-MASTER-BASE"
+    - "HBASE-1-REGIONSERVER-BASE"
+    - "INFRA_SOLR-SOLR_SERVER-BASE"
+    - "KAFKA-1-BROKER-BASE"
+    - "ranger-RANGER_USERSYNC-BASE"
+    - "ranger-RANGER_TAGSYNC-BASE"
+    - "ranger-RANGER_ADMIN-BASE"
 
   - name: HostTemplate-Worker
     cardinality: "{{ groups['worker'] | length }}"
     roles:
     - "NIFI-1-NIFI_NODE-BASE"
+    
+  - name: HostTemplate-Edge
+    cardinality: "{{ groups['worker'] | length }}"
+    roles:
+    - "HDFS-1-HTTPFS-BASE"
+    - "HBASE-1-HBASERESTSERVER-BASE"
+    - "HBASE-1-HBASETHRIFTSERVER-BASE"
+    - "KNOX-1-KNOX_GATEWAY-BASE"
+    - "KNOX-1-GATEWAY-BASE"
+      
