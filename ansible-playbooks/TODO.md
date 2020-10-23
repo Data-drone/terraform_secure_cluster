@@ -31,6 +31,8 @@ Spark Jobs Issues:
 - needed user idbroker mapping - dropped IDBroker for now since it isn't supported anyway
   - technical issue is that Spark was delegating down the token properly so idbroker didn't see a valid kerberos token to map to a valid role
 
+##
+- check about moving some of the cluster setup vars in cm_config of having to have them in every single cluster template
 
 ## Add a jump box
 

@@ -8,6 +8,9 @@
     path: /etc/sssd/sssd.conf
   loop: '{{ sssd_tunables }}'
 
+- name: update the authconfig
+  shell: authconfig --enablesssd --enablesssdauth --enablemkhomedir --update
+
 - name: reset sssd
   service:
     name: sssd

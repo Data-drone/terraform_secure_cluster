@@ -2,6 +2,34 @@
 
 Current Atlas has been baked in will need to make some of those dependencies optional to make the templates without atlas work properly again.
 
+## Logic Flow for cluster builds
+
+The cluster install role does everything to setup a cluster.
+
+It uses: 
+- cm_config to get the csds / parcel_repositories needed
+- it gets hosts from cloudera manager
+  - this is currently just for debug
+- `host.j2` and `instantiator.j2` build the system
+- host_templates are defined in the cluster yaml under `clusters` and are retrieved by `host.j2`
+- adding in the hosts that we are applying the template to is done by `instantiator.j2`
+  - instantiator is getting the cluster hosts from `groups['cdp_servers']` which comes from the ansible inventory
+
+#### TODO Multiclusters
+
+If we want to deploy multiple cluster defs for smaller clusters we can look at: 
+
+JMESPath tests:
+From Hostvars
+
+`hostvars.*.{inventory_hostname: inventory_hostname, host_template: host_template} | [?host_template=='HostTemplate-Edge']`
+
+we could add a cluster name then trigger the cluster_install script onto a subset of the hostvars based on cluster def rather than using the `groups['cdp_servers']`
+
+Options:
+- If we want to redefine this, we would need to get instantiator to get the cluster details from somewhere else.
+- Also need to consider that cardinality is being calculated via the inventory too.
+
 ## Atlas configs
 
 - capture whitelist setting
