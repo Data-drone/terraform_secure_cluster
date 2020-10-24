@@ -15,6 +15,14 @@ curl -i -v -uadmin:admin -X PUT --header 'Content-Type: application/json' --head
 
 ```
 
+Ranger UserSync
+
+```{json}
+
+
+
+```
+
 Hue settings
 
 ```{json}
