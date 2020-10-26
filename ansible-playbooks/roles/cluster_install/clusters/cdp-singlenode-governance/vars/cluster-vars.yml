@@ -30,6 +30,8 @@ cluster_services:
 
   - type: impala
 
+  - type: kudu
+
   - type: kafka
 
   - type: knox
@@ -72,6 +74,8 @@ host_templates:
     - "IMPALA-1-IMPALAD-BASE"
     - "IMPALA-1-STATESTORE-BASE"
     - "INFRA_SOLR-SOLR_SERVER-BASE"
+    - "KUDU-1-KUDU_MASTER-BASE"
+    - "KUDU-1-KUDU_TSERVER-BASE"
     - "KAFKA-1-BROKER-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"
     - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
