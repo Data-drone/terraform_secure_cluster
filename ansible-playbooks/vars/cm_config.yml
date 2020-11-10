@@ -1,5 +1,5 @@
 cluster_cm_version: 7.1.4
-cluster_def: cdp-singlenode-governance
+cluster_def: cdp-cdsw-singlenode
 
 # cloud flags
 aws: true
