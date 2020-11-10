@@ -120,7 +120,7 @@ resource "aws_instance"  "cdsw_master"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "master"])
+        Name = join("-", [var.owner, "cdsw-master"])
         owner = var.acc_owner
         enddate = var.enddate
     }
@@ -132,7 +132,7 @@ resource "aws_instance"  "cdsw_master"  {
 }
 
 resource "aws_ebs_volume" "cdsw_docker" {
-    availability_zone = "ap-southeast-2"
+    availability_zone = "ap-southeast-2b"
     type              = "gp2"
     size              = 250
     
@@ -157,7 +157,7 @@ resource "aws_instance"  "cdsw_node"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "worker"])
+        Name = join("-", [var.owner, "cdsw-worker"])
         owner = var.acc_owner
         enddate = var.enddate
     }
