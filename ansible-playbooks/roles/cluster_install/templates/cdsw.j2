@@ -16,7 +16,7 @@
             "ref": "SPARK_ON_YARN-1"
         }, {
             "name": "cdsw.domain.config",
-            "value": "cdsw.{{ groups['cdsw_master'][0] }}.nip.io"
+            "value": "cdsw.{{ hostvars[groups['cdsw_master'][0]]['ansible_host'] }}.nip.io"
         }, {
             "name": "cdsw.master.ip.config",
             "value": "{{ hostvars[groups['cdsw_master'][0]]['ansible_host'] }}"
