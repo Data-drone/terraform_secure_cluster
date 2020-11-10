@@ -1,0 +1,53 @@
+{
+    "refName": "CDSW-1"
+    "serviceType": "CDSW",
+    "serviceConfigs": [
+        {
+            "name": "yarn_service",
+            "ref": "YARN-1"
+        }, {
+            "name": "hdfs_service",
+            "ref": "HDFS-1"
+        }, {
+            "name": "hive_service",
+            "ref": "HIVE_ON_TEZ-1"
+        }, {
+            "name": "spark_on_yarn_service"
+            "ref": "SPARK_ON_YARN"
+        }, {
+            "name": "cdsw.domain.config",
+            "value": "cdsw.{{ groups['cdsw_master'][0] }}.nip.io"
+        }, {
+            "name": "cdsw.master.ip.config",
+            "value": "{{ CDSW_IP }}"
+        }, {
+            "name": "cdsw.enable.mlmodelmetrics.config",
+            "value": "true"
+        }
+    ],
+    "roleConfigGroups": [
+        {
+            "refName": "CDSW-1-CDSW_APPLICATION-BASE",
+            "roleType": "CDSW_APPLICATION",
+            "base": true
+        },
+        {
+          "refName": "CDSW-1-CDSW_MASTER-BASE",
+          "roleType": "CDSW_MASTER",
+          "base": true
+        },
+        {
+          "refName": "CDSW-1-CDSW_DOCKER-BASE",
+          "roleType": "CDSW_DOCKER",
+          "base": true,
+          "configs": [
+            {
+              "name": "cdsw.docker.devices.config",
+              "value": "{{ DOCKER_DEVICE }}"
+            }
+          ]
+        } 
+        
+    ]
+
+}

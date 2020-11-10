@@ -1,0 +1,117 @@
+cluster_version: 7.1.4
+cluster_name: cdp-cdsw-singlenode
+
+hdfs_is_ha: false
+atlas_enabled: true
+ranger_enabled: true
+knox_enabled: true
+idbroker: false
+
+#CDSW_DOMAIN: cdsw.${PUBLIC_IP}.nip.io
+CDSW_IP:
+# we coded this in from the ec2.tf settings ebs_docker_att
+DOCKER_DEVICE: /dev/sdf
+
+cluster_services:
+
+  - type: atlas  
+
+  - type: cdsw
+  
+  - type: ranger
+    ranger_pass: rangerPass1
+  
+  - type: hbase
+
+  - type: hdfs
+    dfs_data_dir_list: /dfs/dn
+    fs_checkpoint_dir_list: /dfs/snn
+    dfs_name_dir_list: /dfs/nn
+    dfs_journalnode_edits_dir: /dfs/jn
+
+  - type: hive
+
+  - type: hive_on_tez
+
+  - type: hue
+
+  - type: impala
+
+  - type: kudu
+
+  - type: kafka
+
+  - type: knox
+    gateway_secret: knoxPass1
+    idbroker_secret: idbrokerPass1
+
+  - type: oozie
+
+  - type: solr
+
+  - type: spark
+
+  - type: yarn
+    yarn_nodemanager_local_dirs: /tmp/nm
+    yarn_nodemanager_log_dirs: /var/log/nm
+
+  - type: yarn_queuemanager
+
+  - type: zookeeper
+
+host_templates:
+  - name: HostTemplate-Master1
+    cardinality: 1
+    roles:
+    - "atlas-ATLAS_SERVER-BASE"
+    - "ranger-RANGER_USERSYNC-BASE"
+    - "ranger-RANGER_TAGSYNC-BASE"
+    - "ranger-RANGER_ADMIN-BASE"
+    - "HDFS-1-BALANCER-BASE"
+    - "HDFS-1-DATANODE-BASE"
+    - "HDFS-1-NAMENODE-BASE"
+    - "HDFS-1-SECONDARYNAMENODE-BASE"
+    - "HBASE-1-MASTER-BASE"
+    - "HBASE-1-REGIONSERVER-BASE"
+    - "HIVE-1-GATEWAY-BASE"
+    - "HIVE-1-HIVEMETASTORE-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+    - "HIVE_ON_TEZ-1-HIVESERVER2-BASE"
+    - "IMPALA-1-CATALOGSERVER-BASE"
+    - "IMPALA-1-IMPALAD-BASE"
+    - "IMPALA-1-STATESTORE-BASE"
+    - "INFRA_SOLR-SOLR_SERVER-BASE"
+    - "KUDU-1-KUDU_MASTER-BASE"
+    - "KUDU-1-KUDU_TSERVER-BASE"
+    - "KAFKA-1-BROKER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
+    - "YARN-1-JOBHISTORY-BASE"
+    - "YARN-1-NODEMANAGER-BASE"
+    - "YARN-1-RESOURCEMANAGER-BASE"
+    - "QUEUEMANAGER-1-QUEUEMANAGER_WEBAPP-BASE"
+    - "QUEUEMANAGER-1-QUEUEMANAGER_STORE-BASE"
+    - "ZOOKEEPER-1-SERVER-BASE"
+
+  - name: HostTemplate-Edge
+    cardinality: 1
+    roles:
+    - "HDFS-1-HTTPFS-BASE"
+    - "HBASE-1-HBASERESTSERVER-BASE"
+    - "HBASE-1-HBASETHRIFTSERVER-BASE"
+    - "HUE-1-HUE_SERVER-BASE"
+    - "HUE-1-HUE_LOAD_BALANCER-BASE"
+    - "HUE-1-KT_RENEWER-BASE"
+    - "KNOX-1-KNOX_GATEWAY-BASE"
+    - "KNOX-1-GATEWAY-BASE"
+    - "OOZIE-1-OOZIE_SERVER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "HIVE-1-GATEWAY-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+
+  - name: HostTemplate-CDSW
+    cardinality: 1
+    roles:
+    - "CDSW-1-CDSW_APPLICATION-BASE"
+    - "CDSW-1-CDSW_DOCKER-BASE"
+    - "CDSW-1-CDSW_MASTER-BASE"
