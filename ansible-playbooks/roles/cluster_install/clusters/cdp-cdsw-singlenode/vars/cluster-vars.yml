@@ -11,7 +11,11 @@ idbroker: false
 #CDSW_DOMAIN: cdsw.${PUBLIC_IP}.nip.io
 #CDSW_IP: groups['cdsw_master'][0]
 # we coded this in from the ec2.tf settings ebs_docker_att
-DOCKER_DEVICE: /dev/sdf
+# It appeared in our system as: /dev/nvme1n1 ....
+# what we set: /dev/sdf
+# second drive will always appear as nvme1
+# see: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/device_naming.html
+DOCKER_DEVICE: /dev/nvme1n1
 
 cluster_services:
 
@@ -116,3 +120,5 @@ host_templates:
     - "CDSW-1-CDSW_APPLICATION-BASE"
     - "CDSW-1-CDSW_DOCKER-BASE"
     - "CDSW-1-CDSW_MASTER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    
