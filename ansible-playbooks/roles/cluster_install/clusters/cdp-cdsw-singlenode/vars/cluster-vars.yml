@@ -7,8 +7,9 @@ ranger_enabled: true
 knox_enabled: true
 idbroker: false
 
+# domain has to have the public ip..
 #CDSW_DOMAIN: cdsw.${PUBLIC_IP}.nip.io
-CDSW_IP:
+#CDSW_IP: groups['cdsw_master'][0]
 # we coded this in from the ec2.tf settings ebs_docker_att
 DOCKER_DEVICE: /dev/sdf
 
@@ -109,7 +110,7 @@ host_templates:
     - "HIVE-1-GATEWAY-BASE"
     - "HIVE_ON_TEZ-1-GATEWAY-BASE"
 
-  - name: HostTemplate-CDSW
+  - name: HostTemplate-CDSWMaster
     cardinality: 1
     roles:
     - "CDSW-1-CDSW_APPLICATION-BASE"

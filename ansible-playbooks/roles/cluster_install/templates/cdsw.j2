@@ -1,5 +1,5 @@
 {
-    "refName": "CDSW-1"
+    "refName": "CDSW-1",
     "serviceType": "CDSW",
     "serviceConfigs": [
         {
@@ -12,14 +12,14 @@
             "name": "hive_service",
             "ref": "HIVE_ON_TEZ-1"
         }, {
-            "name": "spark_on_yarn_service"
-            "ref": "SPARK_ON_YARN"
+            "name": "spark_on_yarn_service",
+            "ref": "SPARK_ON_YARN-1"
         }, {
             "name": "cdsw.domain.config",
             "value": "cdsw.{{ groups['cdsw_master'][0] }}.nip.io"
         }, {
             "name": "cdsw.master.ip.config",
-            "value": "{{ CDSW_IP }}"
+            "value": "{{ hostvars[groups['cdsw_master'][0]]['ansible_host'] }}"
         }, {
             "name": "cdsw.enable.mlmodelmetrics.config",
             "value": "true"
