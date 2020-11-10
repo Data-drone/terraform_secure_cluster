@@ -23,9 +23,7 @@ ${dns} ansible_host=${node-ip[index]} host_template=HostTemplate-Worker # ${node
 [extra_worker]
 
 [cdsw_master]
-%{ for index, dns in cdsw_master-dns ~}
-${dns} ansible_host=${cdsw_master-ip[index]} host_template=HostTemplate-CDSWMaster${index+1} # ${cdsw_master-id[index]} 
-%{ endfor ~}
+${cdsw-master-dns} ansible_host=${cdsw-master-ip} host_template=HostTemplate-CDSWMaster # ${cdsw-master-id}
 
 [cdsw_worker]
 %{ for index, dns in cdsw_node-dns ~}

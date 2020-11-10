@@ -100,14 +100,18 @@ resource "aws_instance"  "node"  {
 
 }
 
+resource "aws_volume_attachment" "ebs_docker_att" {
+    device_name = "/dev/sdf"
+    volume_id = aws_ebs_volume.cdsw_docker.id
+    instance_id = aws_instance.cdsw_master.id
+}
+
 
 resource "aws_instance"  "cdsw_master"  {
     ami = var.ami
     instance_type = var.cdsw_master_instance
     iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
-
-    count = var.cdsw_master
 
     root_block_device {
         volume_type           = var.volume_type
@@ -125,6 +129,17 @@ resource "aws_instance"  "cdsw_master"  {
 
     security_groups = [aws_security_group.sec-clus-sg.id]
 
+}
+
+resource "aws_ebs_volume" "cdsw_docker" {
+    availability_zone = "ap-southeast-2"
+    type              = "gp2"
+    size              = 250
+    
+    tags = {
+        owner = var.acc_owner
+        enddate = var.enddate 
+    }
 }
 
 resource "aws_instance"  "cdsw_node"  {
