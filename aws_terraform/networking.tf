@@ -78,6 +78,15 @@ resource "aws_security_group" "sec-clus-sg" {
         cidr_blocks = concat(["${local.ifconfig_co_json}/32"], var.ingress_cidr_blocks)
     }
 
+    ingress {
+    # this is for custom editors and http for CDSW to work
+        from_port = 80
+        to_port = 80
+        protocol = "tcp"
+
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+
     //If you do not add this rule, you can not reach the NGIX
     ingress {
         from_port = 0

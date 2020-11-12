@@ -19,7 +19,7 @@
             "value": "cdsw.{{ hostvars[groups['cdsw_master'][0]]['ansible_host'] }}.nip.io"
         }, {
             "name": "cdsw.master.ip.config",
-            "value": "{{ hostvars[groups['cdsw_master'][0]]['ansible_host'] }}"
+            "value": "{{ CDSW_IP }}"
         }, {
             "name": "cdsw.enable.mlmodelmetrics.config",
             "value": "true"
