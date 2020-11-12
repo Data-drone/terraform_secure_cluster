@@ -35,7 +35,9 @@ database_type: "postgresql"
 scm_port: 7180
 
 scm_default_user: admin
-scm_default_pass: briza1!
+# the install isn't updating the default...
+scm_default_pass: admin
+#scm_default_pass: briza1!
 
 kdc_admin: admin
 kdc_enc: aes256-cts
