@@ -1,5 +1,5 @@
 cluster_cm_version: 7.1.4
-cluster_def: cdp-cdsw-singlenode
+cluster_def: cdp-cdsw-expanded
 
 # cloud flags
 aws: true
@@ -35,7 +35,7 @@ database_type: "postgresql"
 scm_port: 7180
 
 scm_default_user: admin
-scm_default_pass: admin
+scm_default_pass: briza1!
 
 kdc_admin: admin
 kdc_enc: aes256-cts
