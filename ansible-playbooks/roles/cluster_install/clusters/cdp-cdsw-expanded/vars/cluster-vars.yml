@@ -1,7 +1,7 @@
 cluster_version: 7.1.4
-cluster_name: cdp-cdsw-singlenode
+cluster_name: cdp-cdsw-expanded
 
-hdfs_is_ha: false
+hdfs_is_ha: true
 atlas_enabled: true
 ranger_enabled: true
 knox_enabled: true
@@ -9,7 +9,8 @@ idbroker: false
 
 # domain has to have the public ip..
 #CDSW_DOMAIN: cdsw.${PUBLIC_IP}.nip.io
-CDSW_IP: 10.0.1.34
+# we really need to automate this step...
+CDSW_IP: 10.0.1.145
 # we coded this in from the ec2.tf settings ebs_docker_att
 # It appeared in our system as: /dev/nvme1n1 ....
 # what we set: /dev/sdf
@@ -19,13 +20,13 @@ DOCKER_DEVICE: /dev/nvme1n1
 
 cluster_services:
 
-  - type: atlas  
+  - type: atlas
 
   - type: cdsw
-  
+
   - type: ranger
     ranger_pass: rangerPass1
-  
+
   - type: hbase
 
   - type: hdfs
@@ -42,8 +43,6 @@ cluster_services:
 
   - type: impala
 
-  - type: kudu
-
   - type: kafka
 
   - type: knox
@@ -55,6 +54,7 @@ cluster_services:
   - type: solr
 
   - type: spark
+  - type: spark3
 
   - type: yarn
     yarn_nodemanager_local_dirs: /tmp/nm
@@ -68,36 +68,57 @@ host_templates:
   - name: HostTemplate-Master1
     cardinality: 1
     roles:
-    - "atlas-ATLAS_SERVER-BASE"
-    - "ranger-RANGER_USERSYNC-BASE"
-    - "ranger-RANGER_TAGSYNC-BASE"
-    - "ranger-RANGER_ADMIN-BASE"
-    - "HDFS-1-BALANCER-BASE"
-    - "HDFS-1-DATANODE-BASE"
-    - "HDFS-1-NAMENODE-BASE"
-    - "HDFS-1-SECONDARYNAMENODE-BASE"
     - "HBASE-1-MASTER-BASE"
-    - "HBASE-1-REGIONSERVER-BASE"
-    - "HIVE-1-GATEWAY-BASE"
-    - "HIVE-1-HIVEMETASTORE-BASE"
-    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
-    - "HIVE_ON_TEZ-1-HIVESERVER2-BASE"
-    - "IMPALA-1-CATALOGSERVER-BASE"
-    - "IMPALA-1-IMPALAD-BASE"
+    - "HDFS-1-NAMENODE-BASE"
+    - "HDFS-1-JOURNALNODE-BASE"
+    - "HDFS-1-FAILOVERCONTROLLER-BASE"
     - "IMPALA-1-STATESTORE-BASE"
-    - "INFRA_SOLR-SOLR_SERVER-BASE"
-    - "KUDU-1-KUDU_MASTER-BASE"
-    - "KUDU-1-KUDU_TSERVER-BASE"
-    - "KAFKA-1-BROKER-BASE"
-    - "SPARK_ON_YARN-1-GATEWAY-BASE"
-    - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
-    - "YARN-1-JOBHISTORY-BASE"
-    - "YARN-1-NODEMANAGER-BASE"
+    - "IMPALA-1-CATALOGSERVER-BASE"
     - "YARN-1-RESOURCEMANAGER-BASE"
     - "QUEUEMANAGER-1-QUEUEMANAGER_WEBAPP-BASE"
     - "QUEUEMANAGER-1-QUEUEMANAGER_STORE-BASE"
     - "ZOOKEEPER-1-SERVER-BASE"
-
+  - name: HostTemplate-Master2
+    cardinality: 1
+    roles:
+    - "HBASE-1-MASTER-BASE"
+    - "HDFS-1-NAMENODE-BASE"
+    - "HDFS-1-JOURNALNODE-BASE"
+    - "HDFS-1-FAILOVERCONTROLLER-BASE"
+    - "HIVE_ON_TEZ-1-HIVESERVER2-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+    - "SPARK3_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "YARN-1-RESOURCEMANAGER-BASE"
+    - "YARN-1-GATEWAY-BASE"
+    - "ZOOKEEPER-1-SERVER-BASE"
+  - name: HostTemplate-Master3
+    cardinality: 1
+    roles:
+    - "atlas-ATLAS_SERVER-BASE"
+    - "ranger-RANGER_USERSYNC-BASE"
+    - "ranger-RANGER_TAGSYNC-BASE"
+    - "ranger-RANGER_ADMIN-BASE"
+    - "HBASE-1-MASTER-BASE"
+    - "HDFS-1-BALANCER-BASE"
+    - "HDFS-1-JOURNALNODE-BASE"
+    - "HIVE-1-HIVEMETASTORE-BASE"
+    - "INFRA_SOLR-SOLR_SERVER-BASE"
+    - "YARN-1-JOBHISTORY-BASE"
+    - "ZOOKEEPER-1-SERVER-BASE"
+    - "SPARK_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
+    - "SPARK3_ON_YARN-1-SPARK_YARN_HISTORY_SERVER-BASE"
+  - name: HostTemplate-Worker
+    cardinality: "{{ groups['worker'] | length }}"
+    roles:
+    - "HBASE-1-REGIONSERVER-BASE"
+    - "HDFS-1-DATANODE-BASE"
+    - "KAFKA-1-BROKER-BASE"
+    - "YARN-1-NODEMANAGER-BASE"
+    - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK3_ON_YARN-1-GATEWAY-BASE"
+    - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+    - "IMPALA-1-IMPALAD-BASE"
   - name: HostTemplate-Edge
     cardinality: 1
     roles:
@@ -111,6 +132,7 @@ host_templates:
     - "KNOX-1-GATEWAY-BASE"
     - "OOZIE-1-OOZIE_SERVER-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK3_ON_YARN-1-GATEWAY-BASE"
     - "HIVE-1-GATEWAY-BASE"
     - "HIVE_ON_TEZ-1-GATEWAY-BASE"
 
@@ -121,4 +143,5 @@ host_templates:
     - "CDSW-1-CDSW_DOCKER-BASE"
     - "CDSW-1-CDSW_MASTER-BASE"
     - "SPARK_ON_YARN-1-GATEWAY-BASE"
+    - "SPARK3_ON_YARN-1-GATEWAY-BASE"
     
