@@ -1,0 +1,35 @@
+{
+    "refName": "FLINK-1",
+    "serviceType": "FLINK",
+    "serviceConfigs": [
+        "name": "yarn_service",
+            "ref": "YARN-1"
+        }, {
+            "name": "hdfs_service",
+            "ref": "HDFS-1"
+        }, {
+            "name": "hive_service",
+            "ref": "HIVE-1"
+        }, {
+            "name": "hdfs_service",
+            "ref": "HDFS-1"
+        }, {
+          "name": "atlas_collection_enable",
+          "value": "true"
+        }, {
+          "name": "enable_hive_catalog",
+          "value": "true"
+        }
+    ],
+    "roleConfigGroups": [
+        {
+            "refName": "FLINK-1-GATEWAY-BASE",
+            "roleType": "GATEWAY",
+            "base": true
+        }, {
+            "refName": "FLINK-1-FLINK_HISTORY_SERVER-BASE",
+            "roleType": "FLINK_HISTORY_SERVER",
+            "base": true
+        }
+    ]
+}

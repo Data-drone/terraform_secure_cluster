@@ -10,7 +10,8 @@ idbroker: false
 # domain has to have the public ip..
 #CDSW_DOMAIN: cdsw.${PUBLIC_IP}.nip.io
 # we really need to automate this step...
-CDSW_IP: 10.0.1.145
+# note this needs editing will currently fail
+CDSW_IP: {{ hostvars[groups['cdsw_master'][0]] }}
 # we coded this in from the ec2.tf settings ebs_docker_att
 # It appeared in our system as: /dev/nvme1n1 ....
 # what we set: /dev/sdf
@@ -48,6 +49,8 @@ cluster_services:
   - type: knox
     gateway_secret: knoxPass1
     idbroker_secret: idbrokerPass1
+
+  - type: flink
 
   - type: oozie
 
@@ -119,6 +122,7 @@ host_templates:
     - "SPARK3_ON_YARN-1-GATEWAY-BASE"
     - "HIVE_ON_TEZ-1-GATEWAY-BASE"
     - "IMPALA-1-IMPALAD-BASE"
+    - "FLINK-1-GATEWAY-BASE"
   - name: HostTemplate-Edge
     cardinality: 1
     roles:
@@ -135,6 +139,8 @@ host_templates:
     - "SPARK3_ON_YARN-1-GATEWAY-BASE"
     - "HIVE-1-GATEWAY-BASE"
     - "HIVE_ON_TEZ-1-GATEWAY-BASE"
+    - "FLINK-1-GATEWAY-BASE"
+    - "FLINK-1-FLINK_HISTORY_SERVER-BASE"
 
   - name: HostTemplate-CDSWMaster
     cardinality: 1
