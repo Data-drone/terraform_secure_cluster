@@ -41,6 +41,17 @@ databases:
     user: 'ranger'
     pass: 'rangerPass'
     type: 'postgresql'
+  schemaregistry:
+    name: 'schemaregistry'
+    user: 'schemaregistry'
+    pass: 'schemaregistryPass'
+    type: 'postgresql'
+  modelops:
+    name: 'modelops'
+    user: 'modelops'
+    pass: 'modelopsPass'
+    type: 'postgresql'
+
 
 postgresql_user: postgres
 
@@ -69,6 +80,12 @@ postgresql_users:
   - name: '{{ databases.ranger.user }}'
     password: '{{ databases.ranger.pass }}'
     state: present
+  - name: '{{ databases.schemaregistry.user }}'
+    password: '{{ databases.schemaregistry.pass }}'
+    state: present
+  - name: '{{ databases.modelops.user }}'
+    password: '{{ databases.modelops.pass }}'
+    state: present
 
     
 postgresql_databases:
@@ -88,6 +105,12 @@ postgresql_databases:
     owner: '{{ databases.das.user }}'
   - name: '{{ databases.ranger.name }}'
     owner: '{{ databases.ranger.user }}'
+  - name: '{{ databases.schemaregistry.name }}'
+    owner: '{{ databases.schemaregistry.user }}'
+  - name: '{{ databases.modelops.name }}'
+    owner: '{{ databases.modelops.user }}'
+    
+
 
 postgresql_hba_entries:
     - {type: local, database: all, user: postgres, auth_method: peer}

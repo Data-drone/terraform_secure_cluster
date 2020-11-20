@@ -23,6 +23,18 @@
         }, {
             "name": "cdsw.enable.mlmodelmetrics.config",
             "value": "true"
+        }, {
+            "name" : "cdsw.mlmodelmetrics.postgresql.user",
+            "value" : "{{ databases.modelops.user }}"
+        }, {
+            "name" : "cdsw.mlmodelmetrics.postgresql.host",
+            "value" : "{{ groups['database'][0] }}"
+        }, {
+            "name" : "cdsw.mlmodelmetrics.postgresql.dbname",
+            "value" : "{{ databases.modelops.name }}"
+        }, {
+            "name" : "cdsw.mlmodelmetrics.postgresql.pass",
+            "value" : "{{ databases.modelops.pass }}"
         }
     ],
     "roleConfigGroups": [

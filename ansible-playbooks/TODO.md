@@ -1,16 +1,26 @@
 # List of ToDo
 
+# database
+upgrade to new postgres needed for schema registry:
+https://fojta.wordpress.com/2019/02/11/upgrade-postgresql-version-9-to-10/
+https://github.com/geerlingguy/ansible-role-postgresql/issues/145
+
 # More Flexible Installs?
 Finish CM Install:
     - Multiple Clusters maybe? Stream plus normal
     - kinda sorted with tf configs
 
-# Prewarming Images
+# Add nodes weirdness
 
-  - need clean up cloudera-scm-agent and uuid especially if we are building on the base like with the GPU images - added v1
+Currently we need to manually run:
+aws ec2 associate-iam-instance-profile --instance-id i-08fbf7a49f9adb41a --iam-instance-profile Name=sec_clus_profile
 
+on AWS otherwise the instance profile role doesn't get attached
+Also sec_clus_profile doesn't appear in list of profiles if we manually add in console vs cli
 
 # using platform tools
+
+Maybe we can update dfs_permissions_supergroup when we put in the ldap? 
 
 ```{bash}
 
