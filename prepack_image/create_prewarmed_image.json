@@ -23,7 +23,7 @@
         },
         "instance_type": "m5a.xlarge",
         "ssh_username": "centos",
-        "ami_name": "blaw_secure_cluster {{timestamp}}",
+        "ami_name": "blaw_{{ user `instance` }}-{{timestamp}}",
         "run_tags": {
           "owner": "{{ user `owner` }}",
           "enddate": "{{ user `enddate` }}"
