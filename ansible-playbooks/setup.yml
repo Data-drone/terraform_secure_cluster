@@ -31,7 +31,8 @@
 - name: setup postgres
   hosts: database
   roles:
-    - geerlingguy.postgresql
+    - install_database
+#    - geerlingguy.postgresql
   vars_files:
     - vars/database.yml
   become: yes
