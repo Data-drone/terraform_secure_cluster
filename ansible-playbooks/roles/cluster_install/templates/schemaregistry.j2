@@ -1,0 +1,45 @@
+{
+    "refName": "schemaregistry",
+    "serviceType": "SCHEMAREGISTRY",
+    "serviceConfigs": [
+        {
+            "name": "kerberos.auth.enable",
+            "value": "true"
+        }, {
+            "name": "database_host",
+            "value": "{{ groups['database'][0] }}"
+        }, {
+            "name": "database_name",
+            "value": "{{ databases.schemaregistry.name }}"
+        }, {
+            "name": "database_password",
+            "value": "{{ databases.schemaregistry.pass }}"
+        }, {
+            "name": "database_port",
+            "value": "5432"
+        }, {
+            "name": "database_type",
+            "value": "{{ databases.schemaregistry.type }}"
+        }, {
+            "name": "database_user",
+            "value": "{{ databases.schemaregistry.user }}"
+        }
+    ],
+    "roleConfigGroups": [
+        {
+          "refName": "schemaregistry-SCHEMA_REGISTRY_SERVER-BASE",
+          "roleType": "SCHEMA_REGISTRY_SERVER",
+          "base": true,
+          "configs": [
+            {
+              "name": "schema.registry.port",
+              "value": "7788"
+            },
+            {
+              "name": "schema.registry.ssl.port",
+              "value": "7790"
+            }
+          ]
+        }
+      ]
+}

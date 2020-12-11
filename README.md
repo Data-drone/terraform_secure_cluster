@@ -6,17 +6,12 @@ Some templates to build some quick test systems with Cloudera CDP Private Cloud 
 
 Update secrets with access keys etc
 Update cm_config with whatever info needed
-- note only testing with CDP 7.1.3
+- note only testing with CDP 7.1.3 / 7.1.4
 
 Use packer script in prepack_image to prepare a prewarmed image
-- note sometimes that parcel still doesn't get picked up properly
-- this can still be BUGGY in terms of the preloaded parcels being detected.
-  - it seems to be a permission problem perhaps.
-  - sometimes restarting manager and agent a few times fixes.
-  - run tail -f /var/log/cloudera-scm-server/cloudera-scm-server.log
-    to follow the cluster deployment in terminal and see if parcel deploy is causing issues
 
 Use terraform script to build the infra first
+- wait to make sure that instances are in proper running state before starting ansible
 
 Cluster templates are in:
 ansible-playbooks/roles/cluster_install/clusters
@@ -69,10 +64,14 @@ Run from root folder
 ```{bash}
 
 # Main function
-ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup.yml --private-key ../terraforming/secrets/brian_terra_key.pem --extra-vars "@secrets/secrets.yml"
 
-# run single role
+ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup.yml --private-key ../terraforming/secrets/brian_key_newse.pem --extra-vars "@secrets/secrets.yml"
 
+# Adding in new nodes
+# Note that the new nodes should be added into inventory under extra_worker
+# Copy them over to their standard group after so that we can reuse add_nodes
+# in case we need more later
+ansible-playbook -i aws_terraform/inventory ansible-playbooks/add_nodes.yml --private-key ../terraforming/secrets/brian_key_newse.pem --extra-vars "@secrets/secrets.yml"
 
 # Debugging before
 ansible-playbook -i aws_terraform/inventory ansible-playbooks/playbooks/test.yml --private-key ../terraforming/secrets/brian_terra_key.pem -t run --extra-vars "@secrets/secrets.yml"

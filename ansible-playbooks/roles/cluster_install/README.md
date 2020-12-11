@@ -2,6 +2,8 @@
 
 Current Atlas has been baked in will need to make some of those dependencies optional to make the templates without atlas work properly again.
 
+Schema Registry requires Postgres 10+
+
 ## Logic Flow for cluster builds
 
 The cluster install role does everything to setup a cluster.
@@ -14,6 +16,24 @@ It uses:
 - host_templates are defined in the cluster yaml under `clusters` and are retrieved by `host.j2`
 - adding in the hosts that we are applying the template to is done by `instantiator.j2`
   - instantiator is getting the cluster hosts from `groups['cdp_servers']` which comes from the ansible inventory
+
+#### TODO - HDFS
+
+set supergroup to the ldap group cdp_admins
+
+
+#### TODO CDSW
+
+- fix the addresses - putting in the right internal aws ip for cdsw config flag
+- maybe someway to detect when CDSW is actually ready?
+
+- script to create first user and possible switch to LDAP integration properly
+- preload CML Viz Apps image
+- preload a R-Studio Image
+
+- GPU Setup
+  - preload a cuda image?
+  - rapids image?
 
 #### TODO Multiclusters
 
