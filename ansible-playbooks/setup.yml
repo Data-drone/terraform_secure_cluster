@@ -28,7 +28,7 @@
     - ansible_python_interpreter: "/usr/bin/python2.7"    
   become: yes
 
-- name: setup postgres
+- name: setup postgres repo
   hosts: database
   roles:
     - install_database
@@ -36,7 +36,15 @@
   vars_files:
     - vars/database.yml
   become: yes
-  
+
+- name: setup database
+  hosts: database
+  roles:
+    - geerlingguy.postgresql
+  vars_files:
+    - vars/database.yml
+  become: yes
+
 - name: add epel dependency
   hosts: cdp_servers
   roles:

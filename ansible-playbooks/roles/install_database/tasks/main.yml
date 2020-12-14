@@ -1,9 +1,8 @@
-- name: add postgres 10 repo
-  yum:
-    name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
-    state: present
+---
 
-- name: setup postgres
-  include_role:
-    - geerlingguy.postgresql
+
+  - name: add postgres 10 repo
+    yum:
+      name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+      state: present
   
