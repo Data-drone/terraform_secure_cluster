@@ -132,7 +132,7 @@ resource "aws_instance"  "cdsw_master"  {
 }
 
 resource "aws_ebs_volume" "cdsw_docker" {
-    availability_zone = "ap-southeast-2b"
+    availability_zone = aws_subnet.mainsubnet.availability_zone
     type              = "gp2"
     size              = 250
     
