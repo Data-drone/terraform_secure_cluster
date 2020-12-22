@@ -1,0 +1,80 @@
+{
+      "refName": "streams_messaging_manager",
+      "serviceType": "STREAMS_MESSAGING_MANAGER",
+      "displayName": "SMM",
+      "serviceConfigs": [
+        {
+          "name" : "smm_database_host",
+          "value" : "{{ groups['database'][0] }}"
+        },
+        {
+          "name" : "smm_database_password",
+          "value" : "{{ databases.smm.pass }}"
+        },
+        {
+          "name" : "smm_database_port",
+          "value" : "5432"
+        },
+        {
+          "name" : "smm_database_type",
+          "value" : "{{ databases.smm.type }}"
+        }
+      ],
+      "roleConfigGroups": [
+        {
+          "refName": "streams_messaging_manager-STREAMS_MESSAGING_MANAGER_SERVER-BASE",
+          "roleType": "STREAMS_MESSAGING_MANAGER_SERVER",
+          "base": true,
+          "configs": [
+            {
+              "name" : "SMM_HEAP_SIZE",
+              "value" : "2048"
+            },
+            {
+              "name" : "consumer.group.refresh.interval.ms",
+              "value" : "1000"
+            },
+            {
+              "name" : "inactive.group.timeout.ms",
+              "value" : "180000"
+            },
+            {
+              "name" : "inactive.producer.timeout.ms",
+              "value" : "180000"
+            }
+            ,{
+              "name" : "kafka.connect.host",
+              "value" : "{{ groups['cdf_master'][0] }}"
+            }, {
+              "name" : "kafka.connect.port",
+              "value" : "38083"
+            }
+{% if HAS_SRM %}
+            ,{
+              "name" : "streams.replication.manager.configure",
+              "value" : "true"
+            },
+            {
+              "name" : "streams.replication.manager.host",
+              "value" : "{{ groups['cdf_master'][0] }}"
+            }
+{% endif %}
+            ,{
+            "name" : "cm.metrics.service.monitor.host",
+            "value" : "{{ groups['manager'][0] }}"
+            }
+          ]
+        },
+        {
+          "refName": "streams_messaging_manager-STREAMS_MESSAGING_MANAGER_UI-BASE",
+          "roleType": "STREAMS_MESSAGING_MANAGER_UI",
+          "base": true,
+          "configs": [
+            {
+              "name": "streams.messaging.manager.ui.port",
+              "value": "9991"
+            }
+         ]
+        }
+      ]
+    }

@@ -1,4 +1,4 @@
-cluster_version: 7.1.4
+cluster_version: 7.1.5
 cluster_name: cfm
 
 hdfs_is_ha: false
@@ -6,6 +6,7 @@ atlas_enabled: false
 ranger_enabled: false
 knox_enabled: false
 idbroker: false
+HAS_SRM: false
 
 cluster_services:
 
@@ -21,6 +22,8 @@ cluster_services:
   
   - type: kafka
 
+  - type: kafka_cruise_control
+
   - type: knox
     gateway_secret: knoxPass1
     idbroker_secret: idbrokerPass1
@@ -29,6 +32,10 @@ cluster_services:
     ranger_pass: rangerPass1
 
   - type: solr
+
+  - type: smm
+
+  - type: schemaregistry
 
   - type: nifi
 
@@ -50,7 +57,6 @@ host_templates:
     - "HBASE-1-MASTER-BASE"
     - "HBASE-1-REGIONSERVER-BASE"
     - "INFRA_SOLR-SOLR_SERVER-BASE"
-    - "KAFKA-1-BROKER-BASE"
     - "ranger-RANGER_USERSYNC-BASE"
     - "ranger-RANGER_TAGSYNC-BASE"
     - "ranger-RANGER_ADMIN-BASE"
@@ -59,9 +65,23 @@ host_templates:
     cardinality: "{{ groups['worker'] | length }}"
     roles:
     - "NIFI-1-NIFI_NODE-BASE"
-    
+  
+  - name: HostTemplate-CDFMaster
+    cardinality: "{{ groups['cdf_master'] | length }}"
+    roles:
+    - "KAFKA-1-KAFKA_CONNECT-BASE"
+    - "cruise_control-CRUISE_CONTROL_SERVER-BASE"
+    - "streams_messaging_manager-STREAMS_MESSAGING_MANAGER_SERVER-BASE"
+    - "streams_messaging_manager-STREAMS_MESSAGING_MANAGER_UI-BASE"
+    - "schemaregistry-SCHEMA_REGISTRY_SERVER-BASE"
+
+  - name: HostTemplate-CDFWorker
+    cardinality: "{{ groups['cdf_worker'] | length }}"
+    roles:
+    - "KAFKA-1-BROKER-BASE"
+
   - name: HostTemplate-Edge
-    cardinality: "{{ groups['worker'] | length }}"
+    cardinality: 1
     roles:
     - "HDFS-1-HTTPFS-BASE"
     - "HBASE-1-HBASERESTSERVER-BASE"

@@ -1,5 +1,5 @@
 cluster_cm_version: 7.2.4
-cluster_def: cdp-cdsw-expanded
+cluster_def: cfm
 
 # cloud flags
 aws: true

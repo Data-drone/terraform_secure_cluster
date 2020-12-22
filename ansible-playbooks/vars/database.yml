@@ -51,7 +51,11 @@ databases:
     user: 'modelops'
     pass: 'modelopsPass'
     type: 'postgresql'
-
+  smm:
+    name: 'streamsmsgmgr'
+    user: 'streamsmsgmgr'
+    pass: 'streamsmsgmgrPass'
+    type: 'postgresql'
 
 postgresql_user: postgres
 
@@ -86,8 +90,10 @@ postgresql_users:
   - name: '{{ databases.modelops.user }}'
     password: '{{ databases.modelops.pass }}'
     state: present
+  - name: '{{ databases.smm.user }}'
+    password: '{{ databases.smm.pass }}'
+    state: present
 
-    
 postgresql_databases:
   - name: '{{ databases.scm.name }}'
     owner: '{{ databases.scm.user }}'
@@ -109,6 +115,9 @@ postgresql_databases:
     owner: '{{ databases.schemaregistry.user }}'
   - name: '{{ databases.modelops.name }}'
     owner: '{{ databases.modelops.user }}'
+  - name: '{{ databases.smm.name }}'
+    owner: '{{ databases.smm.user }}'
+    
     
 
 
@@ -121,6 +130,19 @@ postgresql_hba_entries:
 
 
 postgres_users_no_log: false
+
+postgresql_enablerepo: "pgdg10"
+postgresql_version: 10.15
+postgresql_data_dir: /var/lib/pgsql/10/data
+postgresql_bin_path: /usr/pgsql-10/bin
+postgresql_config_path: /var/lib/pgsql/10/data
+postgresql_daemon: postgresql-10.service
+postgresql_packages:
+  - postgresql10
+  - postgresql10-server
+  - postgresql10-libs
+  - postgresql10-contrib
+  - postgresql10-devel
 
 postgresql_global_config_options:
   - option: listen_addresses

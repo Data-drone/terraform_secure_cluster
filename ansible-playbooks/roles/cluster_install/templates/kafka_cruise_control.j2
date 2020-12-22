@@ -1,0 +1,22 @@
+{
+      "refName": "cruise_control",
+      "serviceType": "CRUISE_CONTROL",
+      "serviceConfigs": [],
+      "roleConfigGroups": [
+        {
+          "refName": "cruise_control-CRUISE_CONTROL_SERVER-BASE",
+          "roleType": "CRUISE_CONTROL_SERVER",
+          "base": true,
+          "configs": [
+            {
+              "name" : "cruisecontrol.properties_role_safety_valve",
+              "value" : "sample.store.topic.replication.factor={{ groups['cdf_worker'] | length }}"
+            }
+            ,{
+              "name" : "security.protocol",
+              "value" : "PLAINTEXT"
+            }
+          ]
+        }
+      ]
+    }

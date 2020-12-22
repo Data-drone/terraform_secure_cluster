@@ -17,6 +17,27 @@
         "roleType": "KAFKA_BROKER",
         "configs": [],
         "base": true
+      }, {
+        "refName": "KAFKA-1-KAFKA_CONNECT-BASE",
+        "roleType": "KAFKA_CONNECT",
+        "base": true,
+        "configs": [
+          {
+            "name" : "bootstrap.servers",
+            "value" : "{% set comma = joiner(",") %}{% for broker in groups['cdf_worker'] %}broker:9092{{ comma() }}{% endfor %}"
+          },
+          {
+            "name" : "config.storage.replication.factor",
+            "value" : "{{ groups['cdf_worker'] | length }}"
+          }, {
+            "name" : "offset.storage.replication.factor",
+            "value" : "{{ groups['cdf_worker'] | length }}"
+          },
+          {
+            "name" : "status.storage.replication.factor",
+            "value" : "{{ groups['cdf_worker'] | length }}"
+          }
+        ]
       }
   ]
 }

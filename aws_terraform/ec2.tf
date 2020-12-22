@@ -63,7 +63,7 @@ resource "aws_instance"  "master"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "master"])
+        Name = join("-", [var.owner, "master", count.index])
         owner = var.acc_owner
         enddate = var.enddate
     }
@@ -89,7 +89,7 @@ resource "aws_instance"  "node"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "worker"])
+        Name = join("-", [var.owner, "worker", count.index])
         owner = var.acc_owner
         enddate = var.enddate
     }
@@ -157,7 +157,7 @@ resource "aws_instance"  "cdsw_node"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "cdsw-worker"])
+        Name = join("-", [var.owner, "cdsw-worker", count.index])
         owner = var.acc_owner
         enddate = var.enddate
     }
@@ -183,7 +183,7 @@ resource "aws_instance"  "cdf_master"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "master"])
+        Name = join("-", [var.owner, "cdf-master", count.index])
         owner = var.acc_owner
         enddate = var.enddate
     }
@@ -209,7 +209,7 @@ resource "aws_instance"  "cdf_worker"  {
     }
 
     tags = {
-        Name = join("-", [var.owner, "worker"])
+        Name = join("-", [var.owner, "cdf-worker", count.index])
         owner = var.acc_owner
         enddate = var.enddate
     }
