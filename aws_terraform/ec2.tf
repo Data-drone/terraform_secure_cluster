@@ -101,9 +101,12 @@ resource "aws_instance"  "node"  {
 }
 
 resource "aws_volume_attachment" "ebs_docker_att" {
+    
+    count = var.cdsw_master
+
     device_name = "/dev/sdf"
-    volume_id = aws_ebs_volume.cdsw_docker.id
-    instance_id = aws_instance.cdsw_master.id
+    volume_id = element(aws_ebs_volume.cdsw_docker.*.id, count.index)
+    instance_id = element(aws_instance.cdsw_master.*.id, count.index)
 }
 
 
@@ -112,6 +115,8 @@ resource "aws_instance"  "cdsw_master"  {
     instance_type = var.cdsw_master_instance
     iam_instance_profile = aws_iam_instance_profile.sec_clus_profile.name
     key_name = var.ssh-key
+
+    count = var.cdsw_master
 
     root_block_device {
         volume_type           = var.volume_type
@@ -132,6 +137,9 @@ resource "aws_instance"  "cdsw_master"  {
 }
 
 resource "aws_ebs_volume" "cdsw_docker" {
+
+    count = var.cdsw_master
+    
     availability_zone = aws_subnet.mainsubnet.availability_zone
     type              = "gp2"
     size              = 250
