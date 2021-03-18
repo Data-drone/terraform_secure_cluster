@@ -1,6 +1,6 @@
 cluster_cm_version: 7.2.6
-cluster_version: 7.1.6.0
-cluster_def: cfm
+cluster_version: 7.1.5.9
+cluster_def: cdp-cdsw-expanded
 
 # cloud flags
 aws: true

@@ -1,4 +1,4 @@
-cluster_version: 7.1.5
+#cluster_version: 7.1.6.0
 cluster_name: cdp-cdsw-expanded
 
 hdfs_is_ha: true
@@ -12,7 +12,7 @@ idbroker: false
 # we really need to automate this step...
 # note this needs editing will currently fail
 #CDSW_IP: {{ hostvars[groups['cdsw_master'][0]] }}
-CDSW_IP: 3.25.107.83
+CDSW_IP: 13.239.35.145
 # we coded this in from the ec2.tf settings ebs_docker_att
 # It appeared in our system as: /dev/nvme1n1 ....
 # what we set: /dev/sdf

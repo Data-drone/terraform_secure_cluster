@@ -6,7 +6,8 @@ Some templates to build some quick test systems with Cloudera CDP Private Cloud 
 
 Update secrets with access keys etc
 Update cm_config with whatever info needed
-- note only testing with CDP 7.1.3 / 7.1.4
+- note only testing with CDP 7.1.3 / 7.1.4 / 7.1.5
+- Not from 7.1.5 CM version increments differently for 7.1.5 associate CM is 7.2.4
 
 Use packer script in prepack_image to prepare a prewarmed image
 
@@ -63,9 +64,13 @@ Run from root folder
 
 ```{bash}
 
-# Main function
+# Main function - to prepare the nodes
 
 ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup.yml --private-key ../terraforming/secrets/brian_key_newse.pem --extra-vars "@secrets/secrets.yml"
+
+# Setting up the cluster
+
+ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup_cluster.yml --private-key ../terraforming/secrets/brian_key_newse.pem --extra-vars "@secrets/secrets.yml"
 
 # Adding in new nodes
 # Note that the new nodes should be added into inventory under extra_worker
