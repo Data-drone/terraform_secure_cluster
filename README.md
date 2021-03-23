@@ -147,3 +147,13 @@ ansible-playbook -i aws_terraform/inventory ansible-playbooks/setup_ldap_demo.ym
 Governance:
 - Ranger Permissions can be incorrect
   - assign cm_admin user from ldap setup to be a HDFS superuser in ranger
+
+# Extra Notes
+
+### AWS Config 
+
+With 7.1.6, IDBroker seems to be working properly
+To access a bucket and create table need: 
+- IDBroker Mapping of usergroup or user to IAM role with permissions over s3
+- Ranger Permissions in HadoopSQL section for the s3a url for the user creating the table
+- IDBroker Mapping of hive user to IAM role with permissions over s3

@@ -12,7 +12,9 @@ idbroker: false
 # we really need to automate this step...
 # note this needs editing will currently fail
 #CDSW_IP: {{ hostvars[groups['cdsw_master'][0]] }}
-CDSW_IP: 13.239.35.145
+# this needs to be the internal IP of the node for aws
+CDSW_IP: 10.0.1.198
+
 # we coded this in from the ec2.tf settings ebs_docker_att
 # It appeared in our system as: /dev/nvme1n1 ....
 # what we set: /dev/sdf
