@@ -157,3 +157,20 @@ To access a bucket and create table need:
 - IDBroker Mapping of usergroup or user to IAM role with permissions over s3
 - Ranger Permissions in HadoopSQL section for the s3a url for the user creating the table
 - IDBroker Mapping of hive user to IAM role with permissions over s3
+
+### Postgres config
+
+When running many jobs then CDP can overwhelm the postgres backing everything.
+This manifests first as Hue going down.
+
+### Ranger Security and hadoop-acls
+
+In the HDFS service under the `ranger-hdfs-security.xml` settings add:
+Name: xasecure.add-hadoop-authorization
+Value: false
+
+This stops issues with hadoop-acl overriding settings in ranger
+Comes up with using Spark and Spark accessing /tmp folder which is owned by hdfs user
+But at the same time, a lot of folders rely on the default hadoop-acls
+
+This breaks even more things as then the hadoop-acl allowing hbase and kafka access to the folders they need is denied...
