@@ -49,4 +49,7 @@ Spark Jobs Issues:
 - Create a terraform / ansible / packer box?
 
 ## Credentials Config
-  
+
+## Python3
+Need to make sure that we have the right spark executor environments available for CDSW / Spark / PySpark
+Minimum is to install a python3 to the nodes or make sure conda is configured right  
